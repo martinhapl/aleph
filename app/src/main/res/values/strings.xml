@@ -3,4 +3,18 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_search">Hledat</string>
+    <string name="title_account">Účet</string>
+    <string name="title_favorite">Oblíbené</string>
+    <string name="title_information">Informace</string>
+    <string name="title_settings">Nastavení</string>
+
+    <!-- Sync Preferences -->
+    <string name="reader_header">Čtenář</string>
+    <string name="fulname_title">Jméno a příjmení</string>
+    <string name="e_mail_title">E-mail</string>
+    <string name="library_header">Knihovna</string>
+    <string name="url_title">Aleph server URL</string>
+    <string name="username_title">Přihlašovací jméno</string>
+    <string name="password_title">Heslo</string>
 </resources>

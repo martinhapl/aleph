@@ -1,0 +1,37 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/reader_header">
+
+        <EditTextPreference
+            app:key="fullname"
+            app:title="@string/fulname_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="e_mail"
+            app:title="@string/e_mail_title"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/library_header">
+
+        <EditTextPreference
+            app:key="url"
+            app:title="@string/url_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="username"
+            app:title="@string/username_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="password"
+            app:title="@string/password_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+
+
+</PreferenceScreen>

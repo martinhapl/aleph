@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:fillViewport="true"
+    android:scrollbars="none"
+    android:fadeScrollbars="false">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/gallery_thumb">
+
+        <include layout="@layout/item_search_list"/>
+
+        <View style="@style/SeparatorHorizontal"/>
+
+        <LinearLayout
+            android:id="@+id/availibilityCheck"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#000080"
+                android:text="@string/check_availability"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/arrow_right"
+                android:contentDescription="arrow" />
+
+        </LinearLayout>
+
+        <View style="@style/SeparatorHorizontal"/>
+
+        <LinearLayout
+            android:id="@+id/detailLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View style="@style/SeparatorHorizontal"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nextServices"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#000080"
+                android:text="@string/next_services"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/arrow_right"
+                android:contentDescription="arrow" />
+
+        </LinearLayout>
+
+        <View style="@style/SeparatorHorizontal"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,5 +1,6 @@
 package net.hapl.aleph.ui.account;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import net.hapl.aleph.MainActivity;
 import net.hapl.aleph.R;
 
 public class AccountFragment extends Fragment {
+
+    public static AccountFragment newInstance() {
+        AccountFragment fragment = new AccountFragment();
+        return fragment;
+    }
 
     private AcountViewModel accountViewModel;
 
@@ -30,6 +37,12 @@ public class AccountFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.accountBackground)));
+        }
+
         return root;
     }
 }

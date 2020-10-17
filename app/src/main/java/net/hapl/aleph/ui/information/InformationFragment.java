@@ -1,5 +1,6 @@
 package net.hapl.aleph.ui.information;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,10 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import net.hapl.aleph.MainActivity;
 import net.hapl.aleph.R;
 
 public class InformationFragment extends Fragment {
 
+    public static Fragment newInstance() {
+        InformationFragment informationFragment = new InformationFragment();
+        return informationFragment;
+    }
 
     private InformationViewModel informationViewModel;
 
@@ -32,6 +38,12 @@ public class InformationFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.infoBackground)));
+        }
+
         return root;
     }
 }

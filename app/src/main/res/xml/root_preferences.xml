@@ -21,6 +21,16 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            app:key="base_bit"
+            app:title="@string/base_bit"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="base_adm"
+            app:title="@string/base_adm"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
             app:key="username"
             app:title="@string/username_title"
             app:useSimpleSummaryProvider="true" />

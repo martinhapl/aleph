@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_favorite"
+        android:icon="@drawable/ic_menu_star"
+        android:title="@string/menuFavoriteAdd"
+        app:showAsAction="withText|ifRoom" />
+
+    <item
+        android:id="@+id/action_send"
+        android:icon="@drawable/ic_card"
+        android:title="@string/menuSendByMail"
+        app:showAsAction="withText|ifRoom" />
+</menu>

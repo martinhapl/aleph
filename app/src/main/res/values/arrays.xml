@@ -9,4 +9,12 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <array name="nav_drawable_color">
+        <item>@color/searchBackground</item>
+        <item>@color/accountBackground</item>
+        <item>@color/favoriteBackground</item>
+        <item>@color/infoBackground</item>
+        <item>@color/settingsBackground</item>
+    </array>
 </resources>

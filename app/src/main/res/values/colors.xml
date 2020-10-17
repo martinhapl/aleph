@@ -3,4 +3,18 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="grayBackground">#FFD3D3D3</color>
+
+    <!-- texts -->
+    <color name="grayText">#FFa3a3a3</color>
+    <color name="blackText">#ff000000</color>
+    <color name="whiteText">#ffffffff</color>
+
+
+    <color name="searchBackground">#ffb4b347</color>
+    <color name="favoriteBackground">#ffd14335</color>
+    <color name="infoBackground">#ff3b2e0b</color>
+    <color name="settingsBackground">#ff615144</color>
+    <color name="accountBackground">#ff6b9997</color>
+
 </resources>

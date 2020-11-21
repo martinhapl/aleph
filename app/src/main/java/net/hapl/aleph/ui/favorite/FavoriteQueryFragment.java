@@ -71,7 +71,7 @@ public class FavoriteQueryFragment extends Fragment {
         favoriteList = (ListView) rootView.findViewById(R.id.favorite_list);
 
         FavoriteQueryListAdapter favoriteQueryListAdapter = new FavoriteQueryListAdapter(MainActivity.getContext(),
-                AlephControl.getInstance().getFavouriteQuery(), favoriteListTouchListener);
+                AlephControl.getInstance().getFavouriteQueryRepository().getFavouriteQuery(), favoriteListTouchListener);
 
         favoriteList.setAdapter(favoriteQueryListAdapter);
         favoriteList.setOnItemClickListener(itemClickListener);
@@ -86,7 +86,7 @@ public class FavoriteQueryFragment extends Fragment {
     AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Log.d(TAG, "itemClickListener: " + Integer.toString(position));
+            Log.d(TAG, "itemClickListener: " + position);
             //cm.sendDataFromFavoriteQueryFragment(favoriteList.getAdapter().getItem(position).toString());
         }
     };
@@ -182,7 +182,7 @@ public class FavoriteQueryFragment extends Fragment {
             }
             return true;
         }
-    };
+    }
 }
 
 

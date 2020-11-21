@@ -63,21 +63,16 @@ public class SearchListAdapter extends BaseAdapter  {
         TextView txtAuthor = (TextView) convertView.findViewById(R.id.authorListItem);
 
         if(searchItems.get(position).getObalka() != null) {
-            imgIcon.setImageBitmap(AlephControl.getInstance().getImageFromDiskCache(searchItems.get(position).getObalka()));
-        }
-        else {
+            imgIcon.setImageBitmap(AlephControl.getInstance().getFindRepository().getImageFromDiskCache(searchItems.get(position).getObalka()));
+        } else {
             imgIcon.setImageBitmap(BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.medium));
         }
 
-        String yearAndAuthor = "";
-        yearAndAuthor = searchItems.get(position).getImprintRok() != null ? searchItems.get(position).getImprintRok() +  " - " : "";
-        yearAndAuthor += searchItems.get(position).getAutor() != null ? searchItems.get(position).getAutor() : "";
+        String yearAndAuthor = (searchItems.get(position).getImprintRok() != null ? searchItems.get(position).getImprintRok() + " - " : "") + (searchItems.get(position).getAutor() != null ? searchItems.get(position).getAutor() : "");
         txtAuthor.setText(yearAndAuthor);
 
-        String nazevAndPodnazev = "";
-        nazevAndPodnazev = searchItems.get(position).getNazev() != null ? searchItems.get(position).getNazev() : "";
-        nazevAndPodnazev += searchItems.get(position).getPodNazev() != null ? searchItems.get(position).getPodNazev() : "";
-        txtBook.setText(nazevAndPodnazev);
+        String nameAndSubname = (searchItems.get(position).getNazev() != null ? searchItems.get(position).getNazev() : "") + (searchItems.get(position).getPodNazev() != null ? searchItems.get(position).getPodNazev() : "");
+        txtBook.setText(nameAndSubname);
 
         return convertView;
     }

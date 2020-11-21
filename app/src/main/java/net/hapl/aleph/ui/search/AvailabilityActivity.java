@@ -7,21 +7,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import net.hapl.aleph.MainActivity;
 import net.hapl.aleph.R;
-import net.hapl.aleph.ui.BaseActivity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class AvailabilityActivity extends BaseActivity {
+public class AvailabilityActivity extends AppCompatActivity {
 
     final static String TAG = "AvailabilityActivity";
 
@@ -38,6 +33,7 @@ public class AvailabilityActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.global);
 
         // inflate layoutu do global layout
         view = (FrameLayout) findViewById(R.id.content_frame);
@@ -51,9 +47,6 @@ public class AvailabilityActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = AvailabilityFragment.newInstance(positionInDto, detailState);
         fragmentManager.beginTransaction().replace(R.id.activity_availability_content, fragment).commit();
-
-        // hide hamburger
-        setDrawerIndicator(false);
     }
 
     @Override
@@ -89,31 +82,5 @@ public class AvailabilityActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onNavItemSelected(int id) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        switch (id) {
-            case MainActivity.SEARCH_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.SEARCH_FRAGMENT);
-                break;
-            case MainActivity.ACCOUNT_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.ACCOUNT_FRAGMENT);
-                break;
-            case MainActivity.FAVORITE_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.FAVORITE_FRAGMENT);
-                break;
-            case MainActivity.INFO_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.INFO_FRAGMENT);
-                break;
-            case MainActivity.SETTINGS_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.SETTINGS_FRAGMENT);
-                break;
-        }
-
-        startActivity(intent);
-        finish();
-    }
 }
 

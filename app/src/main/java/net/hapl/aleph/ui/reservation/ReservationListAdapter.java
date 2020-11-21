@@ -1,4 +1,4 @@
-package net.hapl.aleph.control;
+package net.hapl.aleph.ui.reservation;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.hapl.aleph.R;
+import net.hapl.aleph.control.AlephControl;
+import net.hapl.aleph.control.MainActivityComm;
 import net.hapl.aleph.model.RezervaceDTO;
 import net.hapl.aleph.ui.reservation.ReservationFragment;
 
@@ -89,18 +91,18 @@ public class ReservationListAdapter extends BaseAdapter {
             @Override
             public void run() {
                 try {
-                    Log.d(TAG, "vymazano prvni: " + Integer.toString(AlephControl.getInstance().getCtenar().getRezervaceDTOs().size()));
+                    Log.d(TAG, "vymazano prvni: " + AlephControl.getInstance().getCtenar().getRezervaceDTOs().size());
                     final boolean result = AlephControl.getInstance().cancelHold(AlephControl.getInstance().getCtenar().getRezervaceDTOs().get(position));
 
                     if(result) {
                         AlephControl.getInstance().getCtenar().getRezervaceDTOs().remove(position);
                         Toast.makeText(context, context.getString(R.string.reservation_canceled), Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "vymazano druhy: " + Integer.toString(AlephControl.getInstance().getCtenar().getRezervaceDTOs().size()));
+                        Log.d(TAG, "vymazano druhy: " + AlephControl.getInstance().getCtenar().getRezervaceDTOs().size());
                     }
-                    else {Log.d(TAG, "vymazano treti: " + Integer.toString(AlephControl.getInstance().getCtenar().getRezervaceDTOs().size()));
+                    else {Log.d(TAG, "vymazano treti: " + AlephControl.getInstance().getCtenar().getRezervaceDTOs().size());
                         Toast.makeText(context, context.getString(R.string.reservation_not_canceled), Toast.LENGTH_LONG).show();
                     }
-                    Log.d(TAG, "vymazano ctvrty: " + Integer.toString(AlephControl.getInstance().getCtenar().getRezervaceDTOs().size()));
+                    Log.d(TAG, "vymazano ctvrty: " + AlephControl.getInstance().getCtenar().getRezervaceDTOs().size());
 
                     notifyAdp();
 

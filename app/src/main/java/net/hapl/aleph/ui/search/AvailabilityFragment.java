@@ -20,10 +20,8 @@ import androidx.fragment.app.Fragment;
 import net.hapl.aleph.MainActivity;
 import net.hapl.aleph.R;
 import net.hapl.aleph.control.AlephControl;
-import net.hapl.aleph.control.AvailabilityListAdapter;
 import net.hapl.aleph.model.ItemDataDTO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AvailabilityFragment extends Fragment {
@@ -116,10 +114,10 @@ public class AvailabilityFragment extends Fragment {
             @Override
             public void run() {
                 if(detailState == MainActivity.DETAIL_SEARCH_STATE) {
-                    itemDataDTOs = AlephControl.getInstance().loadItemData(AlephControl.getInstance().getPresentDTOs().get(positionInDto));
+                    itemDataDTOs = AlephControl.getInstance().loadItemData(AlephControl.getInstance().getFindRepository().getPresentDTOs().get(positionInDto));
                 }
                 else {
-                    itemDataDTOs = AlephControl.getInstance().loadItemData(AlephControl.getInstance().getFavourite().get(positionInDto));
+                    itemDataDTOs = AlephControl.getInstance().loadItemData(AlephControl.getInstance().getFavouritesRepository().getFavourite().get(positionInDto));
                 }
 
                 availabilityList.post(new Runnable() {
@@ -164,9 +162,9 @@ public class AvailabilityFragment extends Fragment {
         }
     };
 
-    void startSetConfigActivity() {
+    private void startSetConfigActivity() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
-        intent.putExtra("FRAGMENT", MainActivity.SETTINGS_FRAGMENT_ONLY);
+        //intent.putExtra("FRAGMENT", MainActivity.SETTINGS_FRAGMENT_ONLY);
         startActivity(intent);
     }
 

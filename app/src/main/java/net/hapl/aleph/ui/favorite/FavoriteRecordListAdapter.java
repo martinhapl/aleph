@@ -35,11 +35,11 @@ public class FavoriteRecordListAdapter extends BaseAdapter {
     }
 
     @Override
-    public int getCount() { return AlephControl.getInstance().getFavourite().size(); }
+    public int getCount() { return AlephControl.getInstance().getFavouritesRepository().getFavourite().size(); }
 
     @Override
     public Object getItem(int position) {
-        return AlephControl.getInstance().getFavourite().get(position);
+        return AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position);
     }
 
     @Override
@@ -70,8 +70,8 @@ public class FavoriteRecordListAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     int pos = (Integer) v.getTag();
 
-                    AlephControl.getInstance().removeFavourite(pos);
-                    AlephControl.getInstance().saveFavourites();
+                    AlephControl.getInstance().getFavouritesRepository().removeFavourite(pos);
+                    AlephControl.getInstance().getFavouritesRepository().saveFavourites();
 
                     v.setVisibility(View.GONE);
 
@@ -91,20 +91,20 @@ public class FavoriteRecordListAdapter extends BaseAdapter {
         convertView.setOnTouchListener(favoriteListTouchListener);
 
         String nazevAndPodnazev = "";
-        nazevAndPodnazev = AlephControl.getInstance().getFavourite().get(position).getNazev() != null ?
-                AlephControl.getInstance().getFavourite().get(position).getNazev() : "";
-        nazevAndPodnazev += AlephControl.getInstance().getFavourite().get(position).getPodNazev() != null ?
-                AlephControl.getInstance().getFavourite().get(position).getPodNazev() : "";
+        nazevAndPodnazev = AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getNazev() != null ?
+                AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getNazev() : "";
+        nazevAndPodnazev += AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getPodNazev() != null ?
+                AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getPodNazev() : "";
         holder.txtBook.setText(nazevAndPodnazev);
 
         String yearAndAuthor = "";
-        yearAndAuthor = AlephControl.getInstance().getFavourite().get(position).getImprintRok() != null ? AlephControl.getInstance().getFavourite().get(position).getImprintRok() +  " - " : "";
-        yearAndAuthor += AlephControl.getInstance().getFavourite().get(position).getAutor() != null ? AlephControl.getInstance().getFavourite().get(position).getAutor() : "";
+        yearAndAuthor = AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getImprintRok() != null ? AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getImprintRok() +  " - " : "";
+        yearAndAuthor += AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getAutor() != null ? AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getAutor() : "";
         holder.txtAuthor.setText(yearAndAuthor);
 
-        if(AlephControl.getInstance().getFavourite().get(position).getObalka() != null) {
-            holder.imgIcon.setImageBitmap(AlephControl.getInstance().
-                    getImageFromDiskCache(AlephControl.getInstance().getFavourite().get(position).getObalka()));
+        if(AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getObalka() != null) {
+            holder.imgIcon.setImageBitmap(AlephControl.getInstance().getFindRepository().
+                    getImageFromDiskCache(AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getObalka()));
         }
         else {
             holder.imgIcon.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.medium));

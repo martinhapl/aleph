@@ -4,16 +4,19 @@
     <item
         android:id="@+id/navigation_search"
         android:icon="@android:drawable/ic_menu_search"
+        android:color="@color/searchBackground"
+        android:state_checked="true"
         android:title="@string/title_search" />
 
     <item
         android:id="@+id/navigation_account"
         android:icon="@android:drawable/ic_menu_myplaces"
+        android:background="@color/accountBackground"
         android:title="@string/title_account" />
 
     <item
         android:id="@+id/navigation_favorite"
-        android:icon="@android:drawable/star_off"
+        android:icon="@drawable/ic_menu_star"
         android:title="@string/title_favorite" />
 
     <item

@@ -55,12 +55,10 @@
     <string name="check_availability">Zkontrolovat dostupnost</string>
     <string name="title_activity_base">BaseActivity</string>
 
-
-
     <string name="title_information">Informace</string>
 
 
-    <!-- Sync Preferences -->
+    <!-- Sync Preferences-->
     <string name="reader_header">Čtenář</string>
     <string name="fulname_title">Jméno a příjmení</string>
     <string name="e_mail_title">E-mail</string>
@@ -124,30 +122,12 @@
     <string name="title_query">DOTAZY</string>
 
 
-    <!-- SettingsFragment -->
-    <string name="button_delete">Smazat nastavení</string>
+
+    <!-- SettingsFragment-->
     <string name="title_settings">Nastavení</string>
-    <string name="action_settings_save">Uložit</string>
-    <string name="f_settings_reader">ČTENÁŘ</string>
-    <string name="f_settings_fullname">Plné jméno</string>
-    <string name="f_settings_fullname_hint">Jan Novák</string>
-    <string name="f_settings_email">E-mail</string>
-    <string name="f_settings_email_hint">uzivatel@domena.cz</string>
-    <string name="f_settings_login">Login</string>
-    <string name="f_settings_login_hint">Čtenář</string>
-    <string name="f_settings_password">Heslo</string>
-    <string name="f_settings_password_hint">Povinné</string>
-    <string name="dialog_bad_login">Chyba přihlašování</string>
-    <string name="dialog_check_login_pass">Zkontrolujte login a heslo.</string>
-
-
-    <!-- TODO zjistit jestli je to k necemu potreba -->
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Example action</string>
-    <string name="action_settings">Settings</string>
+    <string name="search_button_description">Search button description</string>
     <string name="base_bit">BaseBIB</string>
     <string name="base_adm">BaseADM</string>
-    <string name="search_button_description">Search button description</string>
+
 
 </resources>

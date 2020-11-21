@@ -6,12 +6,12 @@ public interface
 
 SearchComm {
 
-    public void searchSetVisiblePosition(int position);
+    void searchSetVisiblePosition(int position);
 
-    public void searchChangedAdapter();
+    void searchChangedAdapter();
 
-    public void searchAvailabilityShow(int id);
+    void searchAvailabilityShow(int id);
 
-    public void searchStartDetailActivity(int position, int detailState);
+    void searchStartDetailActivity(int position, int detailState);
 
 }

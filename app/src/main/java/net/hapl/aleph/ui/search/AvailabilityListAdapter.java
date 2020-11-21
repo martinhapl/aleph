@@ -1,4 +1,4 @@
-package net.hapl.aleph.control;
+package net.hapl.aleph.ui.search;
 
 import android.app.Activity;
 import android.content.Context;

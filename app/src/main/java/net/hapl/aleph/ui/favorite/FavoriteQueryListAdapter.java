@@ -65,7 +65,7 @@ public class FavoriteQueryListAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     int pos = (Integer) v.getTag();
 
-                    AlephControl.getInstance().removeFavouriteQuery(pos);
+                    AlephControl.getInstance().getFavouriteQueryRepository().removeFavouriteQuery(pos);
 
                     v.setVisibility(View.GONE);
 

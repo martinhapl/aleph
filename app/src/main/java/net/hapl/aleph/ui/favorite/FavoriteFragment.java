@@ -17,19 +17,30 @@ import androidx.fragment.app.FragmentTabHost;
 import net.hapl.aleph.MainActivity;
 import net.hapl.aleph.R;
 
-import static net.hapl.aleph.MainActivity.FAVORITE_FRAGMENT;
-import static net.hapl.aleph.MainActivity.SEARCH_FRAGMENT;
-
 public class FavoriteFragment extends Fragment {
 
     private static String TAG = "FavoriteFragment";
     private int selectedPosition;
     private FragmentTabHost mTabHost;
 
+    public FavoriteFragment() {
+        Log.d(TAG, "FavoriteFragment");
+    }
 
     public static Fragment newInstance() {
         FavoriteFragment favoriteFragment = new FavoriteFragment();
         return favoriteFragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
+
+        androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.favoriteBackground)));
+        }
+        super.onCreate(savedInstanceState);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -47,22 +58,10 @@ public class FavoriteFragment extends Fragment {
                     .setIndicator(getString(R.string.action_query)), FavoriteQueryFragment.class, null);
         }
 
-
         return root;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
 
-        androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
-        if(actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.favoriteBackground)));
-        }
-
-
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public void onResume() {
@@ -90,28 +89,8 @@ public class FavoriteFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         Log.d(TAG, "onCreateOptionsMenu");
 
-        inflater.inflate(R.menu.favorite, menu);
-
+        inflater.inflate(R.menu.menu_favorite, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-    public void setSelectedPosition(int pos) {
-        this.selectedPosition = pos;
-        if(mTabHost != null) {
-            FragmentManager fm = getChildFragmentManager();
-            FavoriteRecordFragment frag;
-            if((frag = (FavoriteRecordFragment) fm.findFragmentById(R.id.realtabcontent)) != null) {
-                frag.setSelectedPosition(selectedPosition);
-            }
-        }
-        else {
-            FragmentManager fm = getChildFragmentManager();
-            FavoriteRecordFragment frag;
-            if((frag = (FavoriteRecordFragment) fm.findFragmentById(R.id.favorite_record_fragment)) != null) {
-                frag.setSelectedPosition(selectedPosition);
-            }
-        }
-    }
-
 
 }

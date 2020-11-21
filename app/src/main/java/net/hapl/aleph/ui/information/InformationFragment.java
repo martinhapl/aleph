@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,26 @@ import net.hapl.aleph.R;
 
 public class InformationFragment extends Fragment {
 
+    private static String TAG = "InformationFragment";
+
     public static Fragment newInstance() {
         InformationFragment informationFragment = new InformationFragment();
         return informationFragment;
     }
 
     private InformationViewModel informationViewModel;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
+
+        androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.infoBackground)));
+        }
+
+        super.onCreate(savedInstanceState);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,11 +53,6 @@ public class InformationFragment extends Fragment {
                 textView.setText(s);
             }
         });
-
-        androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
-        if(actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.infoBackground)));
-        }
 
         return root;
     }

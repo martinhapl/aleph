@@ -40,13 +40,13 @@ public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
     private List<String> predmety;
     private StringBuilder builder;
 
-    public PresentXMLParser(FindDTO hledanyAutor, String zacatek, String konec, ServerConfigDTO serverConfigDTO) {
+    public PresentXMLParser(FindDTO hledanyAutor, int zacatek, int konec, ServerConfigDTO serverConfigDTO) {
         presentDTOs = new ArrayList<PresentDTO>();
         findDTO = hledanyAutor;
         kodHledani = findDTO.getSet_number();
         entryNum = findDTO.getNo_record();
-        entryZacatek = zacatek;
-        entryKonec = konec;
+        entryZacatek = String.format("%09d", zacatek);
+        entryKonec = String.format("%09d", konec);
 
         HttpAsyncTask2 myHttpAsyncTask2 = new HttpAsyncTask2();
         myHttpAsyncTask2.execute( serverConfigDTO.getXServerURL() + "?op=present&set_entry="+entryZacatek+"-"+entryKonec+"&set_number="+ kodHledani +"&format=marc");
@@ -94,8 +94,7 @@ public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
             if (varfieldID.equals("020")&&subfieldLabel.equals("a")){
                 if (tmpValue.indexOf(" ")>0) {
                     presentDTO.setIsbn(tmpValue.substring(0,tmpValue.indexOf(" ")).replace(" ","").replace(".",""));
-                }
-                else {
+                } else {
                     presentDTO.setIsbn(tmpValue.replace(" ","").replace(".",""));
                 }
                 presentDTO.setObalka(presentDTO.getIsbn());
@@ -106,8 +105,7 @@ public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
             if (varfieldID.equals("245")&&subfieldLabel.equals("a")){
                 if (tmpValue.endsWith("/")){
                     presentDTO.setNazev(tmpValue.substring(0, tmpValue.length()-1));
-                }
-                else {
+                } else {
                     presentDTO.setNazev(tmpValue);
                 }
             }
@@ -115,8 +113,7 @@ public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
                 //presentDTO.setPodNazev(tmpValue);
                 if (tmpValue.endsWith("/")){
                     presentDTO.setPodNazev(tmpValue.substring(0, tmpValue.length()-1));
-                }
-                else {
+                } else {
                     presentDTO.setPodNazev(tmpValue);
                 }
             }
@@ -184,12 +181,7 @@ public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
     public Boolean existObalka(String isbn) {
 
         File file = new File(MainActivity.IMAGECACHEDIR, isbn + ".png");
-        if(!file.exists()) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return !file.exists();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)

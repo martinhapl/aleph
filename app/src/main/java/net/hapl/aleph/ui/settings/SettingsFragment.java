@@ -1,25 +1,31 @@
 package net.hapl.aleph.ui.settings;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.preference.PreferenceFragmentCompat;
+
+import net.hapl.aleph.MainActivity;
 import net.hapl.aleph.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
+
+    public SettingsFragment() {
+    }
 
     public static Fragment newInstance(int state) {
         SettingsFragment settingsFragment = new SettingsFragment();
         return settingsFragment;
     }
 
-    private SettingsViewModel settingsViewModel;
-
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        settingsViewModel =
-                ViewModelProviders.of(this).get(SettingsViewModel.class);
+
+        androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.settingsBackground)));
+        }
 
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
     }

@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import net.hapl.aleph.MainActivity;
@@ -20,11 +21,10 @@ import net.hapl.aleph.control.AlephControl;
 import net.hapl.aleph.control.FavoriteComm;
 import net.hapl.aleph.control.SearchComm;
 import net.hapl.aleph.model.PresentDTO;
-import net.hapl.aleph.ui.BaseActivity;
 import net.hapl.aleph.ui.favorite.FavoriteRecordFragment;
 
 
-public class DetailActivity extends BaseActivity implements SearchComm, FavoriteComm {
+public class DetailActivity extends AppCompatActivity implements SearchComm, FavoriteComm {
     private static final String TAG = "DetailActivity";
 
     private DetailFragment detailFragment;
@@ -47,6 +47,7 @@ public class DetailActivity extends BaseActivity implements SearchComm, Favorite
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.global);
 
         if(savedInstanceState != null) {
             selectedPosition = savedInstanceState.getInt(PARAM_SELECTED_POSITION, 0);
@@ -75,7 +76,7 @@ public class DetailActivity extends BaseActivity implements SearchComm, Favorite
         }
 
         // hide hamburger
-        setDrawerIndicator(false);
+        //setDrawerIndicator(false);
     }
 
     @Override
@@ -127,7 +128,7 @@ public class DetailActivity extends BaseActivity implements SearchComm, Favorite
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "onOptionsItemSelected");
+        Log.d(TAG, "onOptionsItemSelected " + item);
         int id = item.getItemId();
 
         if(id == android.R.id.home) {
@@ -210,10 +211,10 @@ public class DetailActivity extends BaseActivity implements SearchComm, Favorite
     }
 
     private void deleteRecord(int position) {
-        Log.d(TAG, "size: "+ AlephControl.getInstance().getFavourite().size());
-        AlephControl.getInstance().removeFavourite(position);
-        AlephControl.getInstance().loadFavourites();
-        Log.d(TAG, "size: "+AlephControl.getInstance().getFavourite().size());
+        Log.d(TAG, "size: "+ AlephControl.getInstance().getFavouritesRepository().getFavourite().size());
+        AlephControl.getInstance().getFavouritesRepository().removeFavourite(position);
+        AlephControl.getInstance().getFavouritesRepository().loadFavourites();
+        Log.d(TAG, "size: "+AlephControl.getInstance().getFavouritesRepository().getFavourite().size());
 
         detailFragment.notifyAdapter(-1);
 
@@ -226,7 +227,7 @@ public class DetailActivity extends BaseActivity implements SearchComm, Favorite
      * Send record by mail
      */
     private void sendRecordByEmail() {
-        if(detailState == MainActivity.DETAIL_SEARCH_STATE && AlephControl.getInstance().getPresentDTOs() == null) {
+        if(detailState == MainActivity.DETAIL_SEARCH_STATE && AlephControl.getInstance().getFindRepository().getPresentDTOs() == null) {
             return;
         }
         String messageToSend = AlephControl.getInstance().createMessageToSendByEmail(detailFragment.getPosition(), detailState);
@@ -246,49 +247,22 @@ public class DetailActivity extends BaseActivity implements SearchComm, Favorite
     private void addToFavorite() {
         PresentDTO presentDTO;
 
-        presentDTO = AlephControl.getInstance().getPresentDTOs().get(detailFragment.getPosition());
-        AlephControl.getInstance().loadFavourites();
+        presentDTO = AlephControl.getInstance().getFindRepository().getPresentDTOs().get(detailFragment.getPosition());
+        AlephControl.getInstance().getFavouritesRepository().loadFavourites();
 
-        if(AlephControl.getInstance().addFavourite(presentDTO)) {
+        if(AlephControl.getInstance().getFavouritesRepository().addFavourite(presentDTO)) {
             Toast.makeText(this, getString(R.string.add_record_to_favorite), Toast.LENGTH_SHORT).show();
         }
         else {
             Toast.makeText(this, getString(R.string.add_record_to_favorite_false), Toast.LENGTH_SHORT).show();
         }
 
-        AlephControl.getInstance().saveFavourites();
+        AlephControl.getInstance().getFavouritesRepository().saveFavourites();
     }
 
-    @Override
-    protected void onNavItemSelected(int id) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        switch (id) {
-            case MainActivity.SEARCH_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.SEARCH_FRAGMENT);
-                break;
-            case MainActivity.ACCOUNT_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.ACCOUNT_FRAGMENT);
-                break;
-            case MainActivity.FAVORITE_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.FAVORITE_FRAGMENT);
-                break;
-            case MainActivity.INFO_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.INFO_FRAGMENT);
-                break;
-            case MainActivity.SETTINGS_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.SETTINGS_FRAGMENT);
-                break;
-        }
-
-        startActivity(intent);
-        finish();
-    }
 
     @Override
     public void onBackPressed() {
-
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if(fragmentManager.getBackStackEntryCount() > 1) {

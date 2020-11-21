@@ -1,6 +1,5 @@
 package net.hapl.aleph.ui.reservation;
 
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,14 +8,13 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import net.hapl.aleph.MainActivity;
 import net.hapl.aleph.R;
-import net.hapl.aleph.ui.BaseActivity;
 
-public class ReservationActivity extends BaseActivity {
+public class ReservationActivity extends AppCompatActivity {
 
     final static String TAG = "ReservationActivity";
 
@@ -28,7 +26,7 @@ public class ReservationActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_reservation);
+        setContentView(R.layout.global);
 
         view = (FrameLayout) findViewById(R.id.content_frame);
         child = getLayoutInflater().inflate(R.layout.activity_reservation, null);
@@ -37,9 +35,6 @@ public class ReservationActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragment = ReservationFragment.newInstance();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
-        // hide hamburger
-        setDrawerIndicator(false);
     }
 
     @Override
@@ -70,31 +65,5 @@ public class ReservationActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onNavItemSelected(int id) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        switch (id) {
-            case MainActivity.SEARCH_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.SEARCH_FRAGMENT);
-                break;
-            case MainActivity.ACCOUNT_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.ACCOUNT_FRAGMENT);
-                break;
-            case MainActivity.FAVORITE_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.FAVORITE_FRAGMENT);
-                break;
-            case MainActivity.INFO_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.INFO_FRAGMENT);
-                break;
-            case MainActivity.SETTINGS_FRAGMENT:
-                intent.putExtra("FRAGMENT", MainActivity.SETTINGS_FRAGMENT);
-                break;
-        }
-
-        startActivity(intent);
-        finish();
-    }
 }
 

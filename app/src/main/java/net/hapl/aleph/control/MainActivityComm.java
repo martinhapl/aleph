@@ -2,8 +2,8 @@ package net.hapl.aleph.control;
 
 public interface MainActivityComm {
 
-    public void updateSearchAdapter();
+    void updateSearchAdapter();
 
-    public void removeReservation();
+    void removeReservation();
 
 }

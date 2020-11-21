@@ -57,7 +57,7 @@ public class FavoriteRecordFragment extends Fragment {
 
         favoriteListTouchListener = new ListTouchListener();
 
-        AlephControl.getInstance().loadFavourites();
+        AlephControl.getInstance().getFavouritesRepository().loadFavourites();
     }
 
     @Override
@@ -206,5 +206,5 @@ public class FavoriteRecordFragment extends Fragment {
             }
             return true;
         }
-    };
+    }
 }

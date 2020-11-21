@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 
 import net.hapl.aleph.R;
 import net.hapl.aleph.control.AlephControl;
-import net.hapl.aleph.control.ReservationListAdapter;
 
 public class ReservationFragment extends Fragment {
 

@@ -24,7 +24,7 @@ import java.net.URL;
 import java.util.List;
 
 
-public class ObalkaDownload extends AsyncTask<List<PresentDTO>, String, String> {
+public class EnvelopeDownload extends AsyncTask<List<PresentDTO>, String, String> {
 
     private static final String TAG = "ObalkaDownload";
 
@@ -32,7 +32,7 @@ public class ObalkaDownload extends AsyncTask<List<PresentDTO>, String, String> 
     private final MainActivityComm comm;
     private List<PresentDTO> presentDTOs;
 
-    public ObalkaDownload(Context context) {
+    public EnvelopeDownload(Context context) {
         this.context = context;
         comm = (MainActivityComm) context;
     }
@@ -114,12 +114,7 @@ public class ObalkaDownload extends AsyncTask<List<PresentDTO>, String, String> 
     public Boolean existObalkaInCache(String isbn) {
 
         File file = new File(MainActivity.IMAGECACHEDIR, isbn + ".png");
-        if(!file.exists()) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return !file.exists();
     }
 
     public void saveImageToDiskCache(String obalka, Bitmap ukladanaObalka) {

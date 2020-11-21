@@ -26,10 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProviders;
 
 import net.hapl.aleph.MainActivity;
 import net.hapl.aleph.R;
@@ -59,58 +57,47 @@ public class SearchFragment extends Fragment {
     private TextView noResultTextView;
     private FrameLayout rightFragment;
 
-    private SearchViewModel searchViewModel;
     private SearchListAdapter searchListAdapter;
     private SearchComm searchComm;
     private List<PresentDTO> presentDTO;
     private DetailFragment detailFragment;
 
+    private static String favoriteQuery;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment SearchFragment.
-     */
-    public static SearchFragment newInstance(String query) {
-        SearchFragment fragment = new SearchFragment();
-
-        Bundle args = new Bundle();
-        args.putString(ARG_QUERY, query);
-        fragment.setArguments(args);
-
-        return fragment;
+    public static void setFavoriteQuery(String query) {
+        favoriteQuery = query;
     }
-
 
     /**
      * Empty constructor required ?!
      */
     public SearchFragment() {
+        Log.d(TAG, "SearchFragment");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
-
-        if(savedInstanceState != null) {
-            query = savedInstanceState.getString(ARG_QUERY, "");
-        } else {
-            Bundle args = getArguments();
-            if (args != null) {
-                query = args.getString(ARG_QUERY, "");
-            } else {
-                query = MainActivity.getContext().getQuery();
-            }
-        }
+        Log.d(TAG, "onCreate: " + savedInstanceState);
 
         androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
         if(actionBar != null) {
             actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.searchBackground)));
         }
 
-        presentDTO = AlephControl.getInstance().getPresentDTOs();
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
+
+        if (savedInstanceState != null) {
+            query = savedInstanceState.getString(ARG_QUERY, "");
+        } else {
+            Bundle args = getArguments();
+            if (args != null) {
+                query = args.getString(ARG_QUERY, "");
+            }
+        }
+
+
+        presentDTO = AlephControl.getInstance().getFindRepository().getPresentDTOs();
         searchComm = (SearchComm) getActivity();
 
         setHasOptionsMenu(true);
@@ -129,7 +116,7 @@ public class SearchFragment extends Fragment {
         Log.d(TAG, "onResume: " + query);
 
         searchResultList.setSelection(selectedPosition);
-        presentDTO = AlephControl.getInstance().getPresentDTOs();
+        presentDTO = AlephControl.getInstance().getFindRepository().getPresentDTOs();
         searchComm = (SearchComm) getActivity();
         super.onResume();
     }
@@ -155,10 +142,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-
         query = "";
-
-        searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
         View root = inflater.inflate(R.layout.fragment_search, container, false);
 
         // find UI items
@@ -185,29 +169,23 @@ public class SearchFragment extends Fragment {
             bigScreen = true;
         }
 
-
-
         loadSearchList();
 
+        if (favoriteQuery != null) {
+            searchEditText.setText(favoriteQuery);
+            search(favoriteQuery);
+            favoriteQuery = null;
+        }
         return root;
     }
-
-
-
-
-
-
-
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         Log.d(TAG, "onCreateOptionsMenu");
 
-        if(bigScreen) {
+        if (bigScreen) {
             inflater.inflate(R.menu.menu_detail_search, menu);
-        }
-        else {
+        } else {
             inflater.inflate(R.menu.menu_search, menu);
         }
 
@@ -216,24 +194,20 @@ public class SearchFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
         if (id == R.id.action_favorite) {
             Log.d(TAG, "onOptionsItemSelected-action_favorite");
 
             if(detailFragment != null && bigScreen) {
-                if(AlephControl.getInstance().addFavourite(presentDTO.get(detailFragment.getPosition()))) {
+                if (AlephControl.getInstance().getFavouritesRepository().addFavourite(presentDTO.get(detailFragment.getPosition()))) {
                     Toast.makeText(getActivity(), getString(R.string.add_record_to_favorite), Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Toast.makeText(getActivity(), getString(R.string.add_record_to_favorite_false), Toast.LENGTH_SHORT).show();
                 }
-            }
-            else {
-                if(AlephControl.getInstance().addFavouriteQuery(this.searchEditText.getText().toString())) {
+            } else {
+                if (AlephControl.getInstance().getFavouriteQueryRepository().addFavouriteQuery(this.searchEditText.getText().toString())) {
                     Toast.makeText(getActivity(), getString(R.string.add_query_to_favorite), Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Toast.makeText(getActivity(), getString(R.string.add_query_to_favorite_false), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -271,7 +245,7 @@ public class SearchFragment extends Fragment {
     }
 
     public void setSelectedPosition(int pos) {
-        Log.d(TAG, "setSelectedPosition: " + Integer.toString(pos));
+        Log.d(TAG, "setSelectedPosition: " + pos);
         this.selectedPosition = pos;
         searchResultList.setSelection(selectedPosition);
     }
@@ -302,7 +276,7 @@ public class SearchFragment extends Fragment {
             search(query);
         }
         // query not same like in aleph control -> search()
-        else if(!query.equals("") && !query.equals(AlephControl.getInstance().getQuery())) {
+        else if(!query.equals("") && !query.equals(AlephControl.getInstance().getFindRepository().getQuery())) {
             Log.d(TAG, "query not empty, new query");
             search(query);
         }
@@ -310,7 +284,7 @@ public class SearchFragment extends Fragment {
         else if(presentDTO != null) {
             Log.d(TAG, "present dto not null");
             setResultList();
-            searchEditText.setText(AlephControl.getInstance().getQuery());
+            searchEditText.setText(AlephControl.getInstance().getFindRepository().getQuery());
 
             if(bigScreen) {
                 loadDetailFragment();
@@ -345,7 +319,7 @@ public class SearchFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                presentDTO = AlephControl.getInstance().find(query, getActivity());
+                presentDTO = AlephControl.getInstance().getFindRepository().find(query, getActivity());
 
                 // spusteni AsyncTasku
                 //new ObalkaDownload(getActivity()).execute(presentDTO);
@@ -446,8 +420,8 @@ public class SearchFragment extends Fragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            AlephControl.getInstance().findNext();
-                            presentDTO = AlephControl.getInstance().getPresentDTOs();
+                            AlephControl.getInstance().getFindRepository().findNext();
+                            presentDTO = AlephControl.getInstance().getFindRepository().getPresentDTOs();
 
                             if(bigScreen) {
                                 detailFragment.notifyAdapter(-1);

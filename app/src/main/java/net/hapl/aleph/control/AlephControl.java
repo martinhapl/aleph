@@ -31,23 +31,14 @@ public class AlephControl {
 
     private static final String TAG = "AlephControl";
 
-
-
-    private UserConfigDTO userConfigDTO;
+    private final UserConfigDTO userConfigDTO;
     private ServerConfigDTO serverConfigDTO;
-
     private CtenarDTO ctenarDTO;
-
     private List<ItemDataDTO> itemDataDTOs;
 
-
-    private String hAutor;
-
-
-
-    private FavouritesRepository favouritesRepository;
-    private FavouriteQueryRepository favouriteQueryRepository;
-    private FindRepository findRepository;
+    private final FavouritesRepository favouritesRepository;
+    private final FavouriteQueryRepository favouriteQueryRepository;
+    private final FindRepository findRepository;
 
     private static AlephControl instance;
 
@@ -61,17 +52,10 @@ public class AlephControl {
     public AlephControl() {
         super();
 
-
-
         userConfigDTO = new UserConfigDTO();
         serverConfigDTO = getServerConfig();
-
-
         ctenarDTO = new CtenarDTO();
-
-        itemDataDTOs = new ArrayList();
-
-
+        itemDataDTOs = new ArrayList<>();
 
         favouritesRepository = new FavouritesRepository();
         favouriteQueryRepository = new FavouriteQueryRepository();
@@ -90,10 +74,6 @@ public class AlephControl {
         return findRepository;
     }
 
-
-
-
-
      public UserConfigDTO getConfig() {
         //nacteni uzivatelskoho nastaveni
         //TODO: predelat na preference
@@ -105,11 +85,6 @@ public class AlephControl {
         serverConfigDTO = new ServerConfigDTO("MOBAPP","MOBAPP","https://aleph.techlib.cz/X","stk","hka50");
         return serverConfigDTO;
     }
-
-
-
-
-
 
     public CtenarDTO loadCtenar() {
         getConfig();
@@ -123,9 +98,6 @@ public class AlephControl {
     public CtenarDTO getCtenar() {
         return ctenarDTO;
     }
-
-
-
 
     public boolean checkUserConfig() {
         if (isNetworkOnline()) {
@@ -198,45 +170,30 @@ public class AlephControl {
 
 
     public String createSFX(PresentDTO aktualniKniha) {
-        String urlSFX = null;
-        String sid = null;
-        String genre = null;
-        String isbn = null;
-        String issn = null;
-        String date = null;
-        String volume = null;
-        String issue = null;
-        String spage = null;
-        String aulast = null;
-        String aufirst = null;
-        String title = null;
-        String atitle = null;
-
-        urlSFX = "http://sfx.is.cuni.cz/sfxlcl3?";
         //http://sfx.techlib.cz/sfxlcl41
-        if (date == null) {
-            urlSFX = urlSFX + "&sfx.ignore_date_threshold=1";
-        }
-        try {
+        String urlSFX = "http://sfx.is.cuni.cz/sfxlcl3?";
+        urlSFX = urlSFX + "&sfx.ignore_date_threshold=1";
 
+
+        try {
             if (aktualniKniha.getIsbn() != null) {
-                isbn = URLEncoder.encode(aktualniKniha.getIsbn(), "UTF-8");
+                String isbn = URLEncoder.encode(aktualniKniha.getIsbn(), "UTF-8");
                 urlSFX = urlSFX + "&isbn=" + isbn;
             }
             if (aktualniKniha.getImprintRok() != null) {
-                date = URLEncoder.encode(aktualniKniha.getImprintRok(), "UTF-8");
+                String date = URLEncoder.encode(aktualniKniha.getImprintRok(), "UTF-8");
                 urlSFX = urlSFX + "&date=" + date;
             }
             if (aktualniKniha.getIsbn() != null) {
-                issn = URLEncoder.encode(aktualniKniha.getIsbn(), "UTF-8");
+                String issn = URLEncoder.encode(aktualniKniha.getIsbn(), "UTF-8");
                 urlSFX = urlSFX + "&issn=" + issn;
             }
             if (aktualniKniha.getNazev() != null) {
-                title = URLEncoder.encode(aktualniKniha.getNazev(), "UTF-8");
+                String title = URLEncoder.encode(aktualniKniha.getNazev(), "UTF-8");
                 urlSFX = urlSFX + "&title=" + title;
             }
             if (aktualniKniha.getAutor() != null) {
-                aulast = aktualniKniha.getAutor();
+                String aulast = aktualniKniha.getAutor();
                 if (aulast.indexOf(",") > 0) {
                     aulast = aulast.substring(0,aulast.indexOf(","));
                 }
@@ -254,7 +211,7 @@ public class AlephControl {
 
     public String createMessageToSendByEmail(int recordId, int typeRecord) {
         PresentDTO presentDTO;
-        String messageToSend;
+        StringBuilder messageToSend;
 
         if(typeRecord == MainActivity.DETAIL_SEARCH_STATE) {
             presentDTO = AlephControl.getInstance().getFindRepository().getPresentDTOs().get(recordId);
@@ -262,43 +219,43 @@ public class AlephControl {
             presentDTO = AlephControl.getInstance().getFavouritesRepository().getFavourite().get(recordId);
         }
 
-        messageToSend = MainActivity.getContext().getString(R.string.email_share_content) + "\n\n";
+        messageToSend = new StringBuilder(MainActivity.getContext().getString(R.string.email_share_content) + "\n\n");
         if(presentDTO.getNazev() != null) {
-            messageToSend += MainActivity.getContext().getString(R.string.titul) + ": " + presentDTO.getNazev() + "\n";
+            messageToSend.append(MainActivity.getContext().getString(R.string.titul)).append(": ").append(presentDTO.getNazev()).append("\n");
         }
         if(presentDTO.getAutor() != null) {
-            messageToSend += MainActivity.getContext().getString(R.string.author) + ": " + presentDTO.getAutor() + "\n";
+            messageToSend.append(MainActivity.getContext().getString(R.string.author)).append(": ").append(presentDTO.getAutor()).append("\n");
         }
         if(presentDTO.getImprint() != null) {
-            messageToSend += MainActivity.getContext().getString(R.string.nakladatel_udaje) + ": " + presentDTO.getImprint() + "\n";
+            messageToSend.append(MainActivity.getContext().getString(R.string.nakladatel_udaje)).append(": ").append(presentDTO.getImprint()).append("\n");
         }
         if(presentDTO.getVydani() != null) {
-            messageToSend += MainActivity.getContext().getString(R.string.vydani) + ": " + presentDTO.getVydani() + "\n";
+            messageToSend.append(MainActivity.getContext().getString(R.string.vydani)).append(": ").append(presentDTO.getVydani()).append("\n");
         }
         if(presentDTO.getPopis() != null) {
-            messageToSend += MainActivity.getContext().getString(R.string.fyzicky_popis) + ": " + presentDTO.getPopis() + "\n";
+            messageToSend.append(MainActivity.getContext().getString(R.string.fyzicky_popis)).append(": ").append(presentDTO.getPopis()).append("\n");
         }
         if(presentDTO.getPoznamka() != null && presentDTO.getPoznamka().size() != 0) {
-            messageToSend += MainActivity.getContext().getString(R.string.poznamky);
+            messageToSend.append(MainActivity.getContext().getString(R.string.poznamky));
 
             for(String poznamka : presentDTO.getPoznamka()) {
-                messageToSend += ": " + poznamka + "\n";
+                messageToSend.append(": ").append(poznamka).append("\n");
             }
         }
         if(presentDTO.getPredmet() != null && presentDTO.getPredmet().size() != 0) {
-            messageToSend += MainActivity.getContext().getString(R.string.predmet);
+            messageToSend.append(MainActivity.getContext().getString(R.string.predmet));
 
             for(String predmet : presentDTO.getPoznamka()) {
-                messageToSend += ": " + predmet + "\n";
+                messageToSend.append(": ").append(predmet).append("\n");
             }
         }
         if(presentDTO.getIsbn() != null) {
-            messageToSend += MainActivity.getContext().getString(R.string.isbn) + ": " + presentDTO.getIsbn() + "\n";
+            messageToSend.append(MainActivity.getContext().getString(R.string.isbn)).append(": ").append(presentDTO.getIsbn()).append("\n");
         }
         if(presentDTO.getJazyk() != null) {
-            messageToSend += MainActivity.getContext().getString(R.string.jazyk) + ": " + presentDTO.getJazyk() + "\n";
+            messageToSend.append(MainActivity.getContext().getString(R.string.jazyk)).append(": ").append(presentDTO.getJazyk()).append("\n");
         }
 
-        return messageToSend;
+        return messageToSend.toString();
     }
 }

@@ -26,9 +26,7 @@ public class HoldReqCancelXMLParser extends AbstractXmlParseDefaultHandler {
         myHttpAsyncTaskHoldReqCancel.execute(serverConfigDTO.getXServerURL() + "?op=hold-req-cancel&doc_number=" + holdItem.getDocNumber() + "&item_sequence=" + holdItem.getItemSequence() + "&sequence=" + holdItem.getSequence() + "&library=" + serverConfigDTO.getBaseADM() + "&user_name=" + serverConfigDTO.getUser() + "&user_password=" + serverConfigDTO.getUserPassword());
         try {
             myHttpAsyncTaskHoldReqCancel.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
@@ -68,7 +66,7 @@ public class HoldReqCancelXMLParser extends AbstractXmlParseDefaultHandler {
     private class HttpAsyncTaskHoldReqCancel extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            return GET(urls[0]);
+            return parseData(urls[0]);
         }
     }
 }

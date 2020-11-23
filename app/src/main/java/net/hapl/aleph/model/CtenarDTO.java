@@ -30,8 +30,8 @@ public class CtenarDTO {
 
     public CtenarDTO() {
         super();
-        rezervaceDTOs = new ArrayList<RezervaceDTO>();
-        vypujckaDTOs = new ArrayList<VypujckaDTO>();
+        rezervaceDTOs = new ArrayList<>();
+        vypujckaDTOs = new ArrayList<>();
     }
 
     public CtenarDTO(String name, String email, String ctenarID, String date_from, String date_to, List<RezervaceDTO> rezervaceDTOs, List<VypujckaDTO> vypujckaDTOs) {
@@ -40,9 +40,9 @@ public class CtenarDTO {
         this.ctenarID = ctenarID;
         this.date_from = date_from;
         this.date_to = date_to;
-        this.rezervaceDTOs = new ArrayList<RezervaceDTO>();
+        this.rezervaceDTOs = new ArrayList<>();
         this.rezervaceDTOs = rezervaceDTOs;
-        this.vypujckaDTOs = new ArrayList<VypujckaDTO>();
+        this.vypujckaDTOs = new ArrayList<>();
         this.vypujckaDTOs = vypujckaDTOs;
     }
 

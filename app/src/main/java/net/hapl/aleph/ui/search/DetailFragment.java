@@ -15,7 +15,6 @@ public class DetailFragment extends Fragment {
 
     private static final String PARAM_DETAIL_STATE = "PARAM_DETAIL_STATE";
     private static final String PARAM_SELECTED_POSITION = "PARAM_SELECTED_POSITION";
-    private static final String POSITION_IN_DTO = "POSITION_IN_DTO";
 
     private int selectedPosition;
     private int detailState;

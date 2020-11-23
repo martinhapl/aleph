@@ -20,22 +20,18 @@ import net.hapl.aleph.R;
 
 public class InformationFragment extends Fragment {
 
-    private static String TAG = "InformationFragment";
-
     public static Fragment newInstance() {
-        InformationFragment informationFragment = new InformationFragment();
-        return informationFragment;
+        return new InformationFragment();
     }
-
-    private InformationViewModel informationViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        String TAG = "InformationFragment";
         Log.d(TAG, "onCreate");
 
         androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
         if(actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.infoBackground)));
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.infoBackground, getActivity().getTheme())));
         }
 
         super.onCreate(savedInstanceState);
@@ -43,8 +39,7 @@ public class InformationFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        informationViewModel =
-                ViewModelProviders.of(this).get(InformationViewModel.class);
+        InformationViewModel informationViewModel = ViewModelProviders.of(this).get(InformationViewModel.class);
         View root = inflater.inflate(R.layout.fragment_information, container, false);
         final TextView textView = root.findViewById(R.id.text_information);
         informationViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

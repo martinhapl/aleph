@@ -29,6 +29,6 @@
         android:layout_height="47dp"
         android:src="@drawable/ic_menu_delete_small"
         android:visibility="visible"
-        android:contentDescription="TODO" />
+        android:contentDescription="delet small" />
 
 </LinearLayout>

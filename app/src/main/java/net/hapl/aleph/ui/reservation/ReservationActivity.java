@@ -18,8 +18,6 @@ public class ReservationActivity extends AppCompatActivity {
 
     final static String TAG = "ReservationActivity";
 
-    private Fragment fragment;
-
     FrameLayout view;
     View child;
 
@@ -33,7 +31,7 @@ public class ReservationActivity extends AppCompatActivity {
         view.addView(child);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = ReservationFragment.newInstance();
+        Fragment fragment = ReservationFragment.newInstance();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
     }
 
@@ -43,7 +41,7 @@ public class ReservationActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_reservation, menu);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.accountBackground)));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.accountBackground, getTheme())));
 
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);

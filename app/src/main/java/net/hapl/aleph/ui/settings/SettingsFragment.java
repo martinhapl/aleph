@@ -15,8 +15,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     public static Fragment newInstance(int state) {
-        SettingsFragment settingsFragment = new SettingsFragment();
-        return settingsFragment;
+        return new SettingsFragment();
     }
 
     @Override
@@ -24,7 +23,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
         if(actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.settingsBackground)));
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.settingsBackground, getActivity().getTheme())));
         }
 
         setPreferencesFromResource(R.xml.root_preferences, rootKey);

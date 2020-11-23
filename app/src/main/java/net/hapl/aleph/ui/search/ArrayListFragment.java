@@ -28,9 +28,6 @@ public class ArrayListFragment extends Fragment {
     private int mNum;
     private int detailState;
 
-    private LinearLayout availabilityCheck;
-    private LinearLayout nextServices;
-
     SearchComm comm;
 
     /**
@@ -73,10 +70,10 @@ public class ArrayListFragment extends Fragment {
 
         loadDetailBook(fragment_pager_detail);
 
-        availabilityCheck = (LinearLayout) fragment_pager_detail.findViewById(R.id.availibilityCheck);
+        LinearLayout availabilityCheck = (LinearLayout) fragment_pager_detail.findViewById(R.id.availibilityCheck);
         availabilityCheck.setOnClickListener(onAvailabilityCheckListener);
 
-        nextServices = (LinearLayout) fragment_pager_detail.findViewById(R.id.nextServices);
+        LinearLayout nextServices = (LinearLayout) fragment_pager_detail.findViewById(R.id.nextServices);
         nextServices.setOnClickListener(onNextServicesListener);
 
         return fragment_pager_detail;
@@ -158,11 +155,7 @@ public class ArrayListFragment extends Fragment {
         }
     }
 
-    /**
-     * Create text views for detail of book
-     * @param title
-     * @param value
-     */
+
     private void createTextViews(LinearLayout fragment_pager_detail, String title, String value) {
         LinearLayout.LayoutParams titleLayout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
@@ -180,7 +173,7 @@ public class ArrayListFragment extends Fragment {
 
         valueView.setText(value);
         valueView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        valueView.setTextColor(getResources().getColor(R.color.grayText));
+        valueView.setTextColor(getResources().getColor(R.color.grayText, getActivity().getTheme()));
         valueView.setGravity(Gravity.RIGHT);
         valueView.setLayoutParams(valueLayout);
 
@@ -194,7 +187,7 @@ public class ArrayListFragment extends Fragment {
         separatorLayout.setMargins(0, 16, 0, 16);
 
         View view = new View(getActivity());
-        view.setBackgroundColor(getResources().getColor(R.color.grayText));
+        view.setBackgroundColor(getResources().getColor(R.color.grayText, getActivity().getTheme()));
         view.setLayoutParams(separatorLayout);
 
         fragment_pager_detail.addView(view);
@@ -221,12 +214,12 @@ public class ArrayListFragment extends Fragment {
 
             String SFX = AlephControl.getInstance().createSFX(presentDTO);
 
-            if(SFX != null) {
+            if (SFX != null) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(SFX));
                 startActivity(intent);
             } else {
-                Toast.makeText(getActivity(), getString(R.string.detail_no_isbn), Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(), getString(R.string.detail_no_isbn), Toast.LENGTH_SHORT).show();
             }
         }
     };

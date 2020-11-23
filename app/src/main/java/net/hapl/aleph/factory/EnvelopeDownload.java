@@ -1,12 +1,9 @@
 package net.hapl.aleph.factory;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 
 import net.hapl.aleph.MainActivity;
@@ -15,7 +12,6 @@ import net.hapl.aleph.model.PresentDTO;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,19 +24,16 @@ public class EnvelopeDownload extends AsyncTask<List<PresentDTO>, String, String
 
     private static final String TAG = "ObalkaDownload";
 
-    private final Context context;
     private final MainActivityComm comm;
-    private List<PresentDTO> presentDTOs;
 
     public EnvelopeDownload(Context context) {
-        this.context = context;
         comm = (MainActivityComm) context;
     }
 
     protected Bitmap downloadBitmap(String urlLink) throws IOException {
         URL url;
         HttpURLConnection urlConnection = null;
-        InputStream inputStream = null;
+        InputStream inputStream;
 
         try {
             url = new URL(urlLink);
@@ -52,8 +45,7 @@ public class EnvelopeDownload extends AsyncTask<List<PresentDTO>, String, String
 
                 byte[] bytes = readBytes(inputStream);
 
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                return bitmap;
+                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             }  else {
                 throw new IOException("Download failed, HTTP response code "
                         + responseCode);
@@ -69,7 +61,7 @@ public class EnvelopeDownload extends AsyncTask<List<PresentDTO>, String, String
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;
         byte[] buffer = new byte[bufferSize];
-        int len = 0;
+        int len;
         while ((len = inputStream.read(buffer)) != -1) {
             byteBuffer.write(buffer, 0, len);
         }
@@ -86,8 +78,8 @@ public class EnvelopeDownload extends AsyncTask<List<PresentDTO>, String, String
 
         // pokud uz se nekdy stahovala a zadnou to nevratilo,
         // tak by se taky nemela stahovat znovu..nebo jo? treba tam uz bude
-        presentDTOs = params[0];
-        for (int j=0; j<presentDTOs.size(); j++) {
+        List<PresentDTO> presentDTOs = params[0];
+        for (int j = 0; j< presentDTOs.size(); j++) {
             Log.d(TAG, "Obalka: " + presentDTOs.get(j).getObalka());
             if (presentDTOs.get(j).getObalka() != null) {
                 if (existObalkaInCache(presentDTOs.get(j).getObalka())) {
@@ -99,10 +91,9 @@ public class EnvelopeDownload extends AsyncTask<List<PresentDTO>, String, String
                         e.printStackTrace();
                     }
 
-                    if(tempObalka.getByteCount() > 1) {
+                    if (tempObalka.getByteCount() > 1) {
                         saveImageToDiskCache(presentDTOs.get(j).getObalka(), tempObalka);
-                    }
-                    else {
+                    } else {
                         presentDTOs.get(j).setObalka(null);
                     }
                 }
@@ -121,7 +112,7 @@ public class EnvelopeDownload extends AsyncTask<List<PresentDTO>, String, String
         File file = new File(MainActivity.IMAGECACHEDIR, obalka + ".png");
         if(!file.exists() && ukladanaObalka.getByteCount() > 1) {
 
-            FileOutputStream fOut = null;
+            FileOutputStream fOut;
             try {
                 fOut = new FileOutputStream(file);
 
@@ -129,8 +120,6 @@ public class EnvelopeDownload extends AsyncTask<List<PresentDTO>, String, String
                 fOut.flush();
                 fOut.close();
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

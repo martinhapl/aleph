@@ -14,7 +14,7 @@ public class PresentDTOs {
 
     public PresentDTOs() {
         super();
-        presentDTOs = new ArrayList<PresentDTO>();
+        presentDTOs = new ArrayList<>();
     }
 
     public List<PresentDTO> getPresentDTOs() {

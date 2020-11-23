@@ -1,9 +1,7 @@
 package net.hapl.aleph.factory;
 
-import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.os.Build;
 
 import net.hapl.aleph.MainActivity;
 import net.hapl.aleph.model.FindDTO;
@@ -11,7 +9,6 @@ import net.hapl.aleph.model.PresentDTO;
 import net.hapl.aleph.model.ServerConfigDTO;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,19 +16,13 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.xml.sax.Attributes;
 
-import static net.hapl.aleph.factory.HttpFactory.downloadBitmap;
-
 
 public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
 
     private final List<PresentDTO> presentDTOs;
     private PresentDTO presentDTO;
     private final FindDTO findDTO;
-    private final String kodHledani;
     private String hledanyAutor;
-    private final String entryNum;
-    private final String entryZacatek;
-    private final String entryKonec;
     private String tmpValue;
     private String varfieldID;
     private String subfieldLabel;
@@ -41,21 +32,19 @@ public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
     private StringBuilder builder;
 
     public PresentXMLParser(FindDTO hledanyAutor, int zacatek, int konec, ServerConfigDTO serverConfigDTO) {
-        presentDTOs = new ArrayList<PresentDTO>();
+        presentDTOs = new ArrayList<>();
         findDTO = hledanyAutor;
-        kodHledani = findDTO.getSet_number();
-        entryNum = findDTO.getNo_record();
-        entryZacatek = String.format("%09d", zacatek);
-        entryKonec = String.format("%09d", konec);
+        String kodHledani = findDTO.getSet_number();
+        String entryNum = findDTO.getNo_record();
+        String entryZacatek = String.format("%09d", zacatek);
+        String entryKonec = String.format("%09d", konec);
 
         HttpAsyncTask2 myHttpAsyncTask2 = new HttpAsyncTask2();
-        myHttpAsyncTask2.execute( serverConfigDTO.getXServerURL() + "?op=present&set_entry="+entryZacatek+"-"+entryKonec+"&set_number="+ kodHledani +"&format=marc");
+        myHttpAsyncTask2.execute( serverConfigDTO.getXServerURL() + "?op=present&set_entry="+ entryZacatek +"-"+ entryKonec +"&set_number="+ kodHledani +"&format=marc");
 
         try {
             myHttpAsyncTask2.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
@@ -65,8 +54,8 @@ public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
         builder = new StringBuilder();
 
         if (elementName.equalsIgnoreCase("record")) {
-            predmety = new ArrayList<String>();
-            poznamky = new ArrayList<String>();
+            predmety = new ArrayList<>();
+            poznamky = new ArrayList<>();
             presentDTO = new PresentDTO();
         }
 
@@ -99,10 +88,10 @@ public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
                 }
                 presentDTO.setObalka(presentDTO.getIsbn());
             }
-            if (varfieldID.equals("040")&&subfieldLabel.equals("b")){
+            if (varfieldID.equals("040") && subfieldLabel.equals("b")){
                 presentDTO.setJazyk(languageDeCode(tmpValue));
             }
-            if (varfieldID.equals("245")&&subfieldLabel.equals("a")){
+            if (varfieldID.equals("245") && subfieldLabel.equals("a")){
                 if (tmpValue.endsWith("/")){
                     presentDTO.setNazev(tmpValue.substring(0, tmpValue.length()-1));
                 } else {
@@ -184,7 +173,7 @@ public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
         return !file.exists();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+
     public void saveImageToDiskCache(String obalka) {
 
         if(!MainActivity.IMAGECACHEDIR.exists()) MainActivity.IMAGECACHEDIR.mkdirs();
@@ -192,7 +181,7 @@ public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
         File file = new File(MainActivity.IMAGECACHEDIR, obalka + ".png");
         if(!file.exists() && image.getByteCount()>1) {
 
-            FileOutputStream fOut = null;
+            FileOutputStream fOut;
             try {
                 fOut = new FileOutputStream(file);
 
@@ -200,8 +189,6 @@ public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
                 fOut.flush();
                 fOut.close();
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -214,22 +201,10 @@ public class PresentXMLParser extends AbstractXmlParseDefaultHandler {
     private class HttpAsyncTask2 extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            return GET(urls[0]);
+            return parseData(urls[0]);
         }
 
     }
 
 
-    private class HttpAsyncTaskOb extends AsyncTask<String, Void, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(String... urls) {
-            Bitmap tempBitmap=null;
-            try {
-                tempBitmap = downloadBitmap(urls[0]);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return  tempBitmap;
-        }
-    }
 }

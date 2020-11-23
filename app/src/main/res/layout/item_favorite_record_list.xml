@@ -50,6 +50,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_menu_delete"
         android:visibility="gone"
-        android:contentDescription="TODO" />
+        android:contentDescription="delete" />
 
 </LinearLayout>

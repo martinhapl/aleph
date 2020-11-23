@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import net.hapl.aleph.MainActivity;
 import net.hapl.aleph.R;
 import net.hapl.aleph.control.AlephControl;
 import net.hapl.aleph.control.FavoriteComm;
@@ -38,8 +37,7 @@ public class FavoriteRecordFragment extends Fragment {
      * @return A new instance of fragment SearchFragment.
      */
     public static FavoriteRecordFragment newInstance() {
-        FavoriteRecordFragment fragment = new FavoriteRecordFragment();
-        return fragment;
+        return new FavoriteRecordFragment();
     }
 
     /**
@@ -109,7 +107,6 @@ public class FavoriteRecordFragment extends Fragment {
     final AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
             Log.d(TAG, "onItemClick");
         }
     };
@@ -119,7 +116,6 @@ public class FavoriteRecordFragment extends Fragment {
 
         float mDownX;
         float deltaX;
-        private final int mSwipeSlop = -1;
 
 
         @Override
@@ -153,6 +149,7 @@ public class FavoriteRecordFragment extends Fragment {
                     deltaX = x - mDownX;
                     float deltaXAbs = Math.abs(deltaX);
                     if (!mSwiping) {
+                        int mSwipeSlop = -1;
                         if (deltaXAbs > mSwipeSlop) {
                             mSwiping = true;
                             favoriteList.requestDisallowInterceptTouchEvent(true);

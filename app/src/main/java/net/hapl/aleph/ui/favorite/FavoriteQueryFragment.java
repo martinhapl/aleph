@@ -35,8 +35,7 @@ public class FavoriteQueryFragment extends Fragment {
      * @return A new instance of fragment SearchFragment.
      */
     public static FavoriteQueryFragment newInstance() {
-        FavoriteQueryFragment fragment = new FavoriteQueryFragment();
-        return fragment;
+        return new FavoriteQueryFragment();
     }
 
     /**
@@ -83,7 +82,7 @@ public class FavoriteQueryFragment extends Fragment {
     /**
      *
      */
-    AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+    final AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Log.d(TAG, "itemClickListener: " + position);
@@ -100,7 +99,6 @@ public class FavoriteQueryFragment extends Fragment {
 
         float mDownX;
         float deltaX;
-        private int mSwipeSlop = -1;
 
         @Override
         public boolean onTouch(final View v, MotionEvent event) {
@@ -110,7 +108,7 @@ public class FavoriteQueryFragment extends Fragment {
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN: {
-                    if(mItemPressed) {
+                    if (mItemPressed) {
                         //return false;
                     }
                     mItemPressed = true;
@@ -130,6 +128,7 @@ public class FavoriteQueryFragment extends Fragment {
                     deltaX = x - mDownX;
                     float deltaXAbs = Math.abs(deltaX);
                     if (!mSwiping) {
+                        int mSwipeSlop = -1;
                         if (deltaXAbs > mSwipeSlop) {
                             mSwiping = true;
                             favoriteList.requestDisallowInterceptTouchEvent(true);
@@ -149,7 +148,7 @@ public class FavoriteQueryFragment extends Fragment {
                         return false;
                     }
 
-                    if((-deltaX) > v.getWidth()/5) {
+                    if ((-deltaX) > v.getWidth()/5) {
                         v.setAlpha(1);
                         v.setTranslationX(0);
                         getActivity().runOnUiThread(new Runnable() {
@@ -158,8 +157,7 @@ public class FavoriteQueryFragment extends Fragment {
                                 holder.removeButton.setVisibility(View.VISIBLE);
                             }
                         });
-                    }
-                    else if(deltaX > v.getWidth()/5) {
+                    } else if(deltaX > v.getWidth()/5) {
                         v.setAlpha(1);
                         v.setTranslationX(0);
                         getActivity().runOnUiThread(new Runnable() {
@@ -168,8 +166,7 @@ public class FavoriteQueryFragment extends Fragment {
                                 holder.removeButton.setVisibility(View.GONE);
                             }
                         });
-                    }
-                    else {
+                    } else {
                         v.setAlpha(1);
                         v.setTranslationX(0);
                     }

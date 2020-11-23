@@ -30,9 +30,7 @@ public class RenewXMLParser extends AbstractXmlParseDefaultHandler {
         myHttpAsyncTaskRenew.execute(serverConfigDTO.getXServerURL() + "?op=renew&bor_id=" + userConfigDTO.getLogin() + "&item_barcode=" + pujcenaKniha.getBarcode() + "&library=" + serverConfigDTO.getBaseADM() + "&user_name=" + serverConfigDTO.getUser() + "&user_password=" + serverConfigDTO.getUserPassword());
         try {
             myHttpAsyncTaskRenew.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
@@ -79,7 +77,7 @@ public class RenewXMLParser extends AbstractXmlParseDefaultHandler {
         @Override
         protected String doInBackground(String... urls) {
 
-            return GET(urls[0]);
+            return parseData(urls[0]);
         }
     }
 }

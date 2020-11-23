@@ -1,13 +1,10 @@
 package net.hapl.aleph.factory;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -21,13 +18,13 @@ public abstract class AbstractXmlParseDefaultHandler extends DefaultHandler {
 
     protected abstract String getParserResult();
 
-    protected String GET(String urlLink) {
+    protected String parseData(String urlLink) {
         Log.d(this.getClass().getName(), "url: " + urlLink);
         String result = null;
 
         URL url;
         HttpURLConnection urlConnection = null;
-        InputStream inputStream = null;
+        InputStream inputStream;
 
         try {
             url = new URL(urlLink);
@@ -46,12 +43,13 @@ public abstract class AbstractXmlParseDefaultHandler extends DefaultHandler {
                 System.out.println("IO error");
             }
 
-            if(inputStream != null) {
+            if (inputStream != null) {
                 result = getParserResult();
             } else {
+                result = "Did not work!";
                 Log.d(this.getClass().getName(), "result: " + result);
             }
-            result = "Did not work!";
+
 
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());

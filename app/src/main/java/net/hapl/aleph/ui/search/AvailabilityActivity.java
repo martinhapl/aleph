@@ -18,17 +18,12 @@ import net.hapl.aleph.R;
 
 public class AvailabilityActivity extends AppCompatActivity {
 
-    final static String TAG = "AvailabilityActivity";
+    private final static String TAG = "AvailabilityActivity";
 
     private static final String PARAM_DETAIL_STATE = "PARAM_DETAIL_STATE";
     private static final String POSITION_IN_DTO = "POSITION_IN_DTO";
 
-    private int positionInDto;
     private int detailState;
-    private Fragment fragment;
-
-    private FrameLayout view;
-    private View child;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +31,16 @@ public class AvailabilityActivity extends AppCompatActivity {
         setContentView(R.layout.global);
 
         // inflate layoutu do global layout
-        view = (FrameLayout) findViewById(R.id.content_frame);
-        child = getLayoutInflater().inflate(R.layout.activity_availability, null);
+        FrameLayout view = (FrameLayout) findViewById(R.id.content_frame);
+        View child = getLayoutInflater().inflate(R.layout.activity_availability, null);
         view.addView(child);
 
         Intent intent = getIntent();
-        positionInDto = intent.getIntExtra(POSITION_IN_DTO, 0);
+        int positionInDto = intent.getIntExtra(POSITION_IN_DTO, 0);
         detailState = intent.getIntExtra(PARAM_DETAIL_STATE, 0);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragment = AvailabilityFragment.newInstance(positionInDto, detailState);
+        Fragment fragment = AvailabilityFragment.newInstance(positionInDto, detailState);
         fragmentManager.beginTransaction().replace(R.id.activity_availability_content, fragment).commit();
     }
 
@@ -55,11 +50,10 @@ public class AvailabilityActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_reservation, menu);
         ActionBar actionBar = getSupportActionBar();
 
-        if(detailState == MainActivity.DETAIL_SEARCH_STATE) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.searchBackground)));
-        }
-        else {
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.favoriteBackground)));
+        if (detailState == MainActivity.DETAIL_SEARCH_STATE) {
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.searchBackground, getTheme())));
+        } else {
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.favoriteBackground, getTheme())));
         }
 
         actionBar.setHomeButtonEnabled(true);

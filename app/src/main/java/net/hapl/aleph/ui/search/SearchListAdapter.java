@@ -24,8 +24,8 @@ public class SearchListAdapter extends BaseAdapter  {
     private final Context context;
     private final List<PresentDTO> searchItems;
 
+
     /**
-     * Constructor for searching
      * @param context
      * @param layoutResourceId
      * @param searchItems

@@ -17,7 +17,7 @@ public class FavouriteQueryRepository {
     private List<String> favouriteQuery;
 
     public FavouriteQueryRepository() {
-        favouriteQuery = new ArrayList();
+        favouriteQuery = new ArrayList<>();
     }
 
     public List<String> getFavouriteQuery() {
@@ -28,7 +28,7 @@ public class FavouriteQueryRepository {
     public Boolean addFavouriteQuery(String query) {
         loadFavoritesQuery();
 
-        Boolean neniVOblibenych;
+        boolean neniVOblibenych;
         neniVOblibenych = true;
         for (int j=0; j < this.favouriteQuery.size(); j++){
             if (this.favouriteQuery.get(j).equals(query)) {
@@ -54,7 +54,7 @@ public class FavouriteQueryRepository {
         Serializer serializer = new Persister(format);
         File source = new File(MainActivity.DIRECTORY.getPath(), "favouriteQuery.xml");
 
-        List<String> queryList = new ArrayList<String>();
+        List<String> queryList = new ArrayList<>();
 
         if (source.exists()) {
             try {
@@ -92,9 +92,7 @@ public class FavouriteQueryRepository {
             try {
                 result.createNewFile();
                 serializer.write(queryDTO, result);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

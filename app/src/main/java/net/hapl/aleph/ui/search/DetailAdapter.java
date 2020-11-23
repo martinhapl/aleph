@@ -18,7 +18,7 @@ import net.hapl.aleph.control.SearchComm;
         private static final String TAG = "DetailAdapter";
 
         private int readedLast = 0;
-        private DetailFragment detailFragment;
+        private final DetailFragment detailFragment;
 
         public DetailAdapter(DetailFragment detailFragment) {
             super(detailFragment.getActivity().getSupportFragmentManager());

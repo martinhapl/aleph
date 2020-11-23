@@ -50,12 +50,10 @@ public class SearchFragment extends Fragment {
     // layout items
     private ListView searchResultList;
     private EditText searchEditText;
-    private ImageButton searchButton;
     private RelativeLayout searchLayout;
     private RelativeLayout progressLayout;
     private LinearLayout loadingPanel;
     private TextView noResultTextView;
-    private FrameLayout rightFragment;
 
     private SearchListAdapter searchListAdapter;
     private SearchComm searchComm;
@@ -81,7 +79,7 @@ public class SearchFragment extends Fragment {
 
         androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
         if(actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.searchBackground)));
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.searchBackground, getActivity().getTheme())));
         }
 
         super.onCreate(savedInstanceState);
@@ -148,13 +146,11 @@ public class SearchFragment extends Fragment {
         // find UI items
         searchResultList = (ListView) root.findViewById(R.id.searchResult);
         searchEditText = (EditText) root.findViewById(R.id.searchEditText);
-        searchButton = (ImageButton) root.findViewById(R.id.searchButton);
+        ImageButton searchButton = (ImageButton) root.findViewById(R.id.searchButton);
         searchLayout = (RelativeLayout) root.findViewById(R.id.searchLayout);
         progressLayout = (RelativeLayout) root.findViewById(R.id.progressLayout);
         loadingPanel = (LinearLayout) root.findViewById(R.id.loadingPanel);
         noResultTextView = (TextView) root.findViewById(R.id.noResultTextView);
-        // pouze velky displey
-        rightFragment = (FrameLayout) root.findViewById(R.id.right_search_fragment);
 
         searchLayout.setVisibility(View.VISIBLE);
         progressLayout.setVisibility(View.GONE);
@@ -164,10 +160,6 @@ public class SearchFragment extends Fragment {
 
         searchButton.setOnClickListener(searchButtonListener);
         searchResultList.setOnScrollListener(onScrollListener);
-
-        if(rightFragment != null) {
-            bigScreen = true;
-        }
 
         loadSearchList();
 
@@ -234,15 +226,6 @@ public class SearchFragment extends Fragment {
         startActivity(mailer);
     }
 
-    private boolean loadDetailFragment() {
-        if(detailFragment == null) {
-            FragmentManager fragmentManager = getFragmentManager();
-            detailFragment = DetailFragment.newInstance(MainActivity.DETAIL_SEARCH_STATE, 0);
-            fragmentManager.beginTransaction().replace(R.id.right_search_fragment, detailFragment).commit();
-            return true;
-        }
-        return false;
-    }
 
     public void setSelectedPosition(int pos) {
         Log.d(TAG, "setSelectedPosition: " + pos);
@@ -263,12 +246,6 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    public void loadAvailabilityFragment(int id) {
-        FragmentManager fragmentManager = getFragmentManager();
-        AvailabilityFragment availabilityFragment = AvailabilityFragment.newInstance(id, MainActivity.DETAIL_SEARCH_STATE);
-        fragmentManager.beginTransaction().replace(R.id.right_search_fragment, availabilityFragment).addToBackStack(null).commit();
-    }
-
     private void loadSearchList() {
         // query not empty and presentDTO empty -> search()
         if(!query.equals("")  && (presentDTO == null || (presentDTO.size() == 0))) {
@@ -285,10 +262,6 @@ public class SearchFragment extends Fragment {
             Log.d(TAG, "present dto not null");
             setResultList();
             searchEditText.setText(AlephControl.getInstance().getFindRepository().getQuery());
-
-            if(bigScreen) {
-                loadDetailFragment();
-            }
         }
         // wait for set query
         else {
@@ -323,12 +296,6 @@ public class SearchFragment extends Fragment {
 
                 // spusteni AsyncTasku
                 //new ObalkaDownload(getActivity()).execute(presentDTO);
-
-                if(bigScreen) {
-                    if(!loadDetailFragment()) {
-                        detailFragment.notifyAdapter(0);
-                    }
-                }
 
                 if(presentDTO.size() == 0) {
                     noResultTextView.post(new Runnable() {
@@ -369,10 +336,6 @@ public class SearchFragment extends Fragment {
             searchResultList.setOnItemClickListener(itemClickListener);
         }
     }
-
-    /*********************************************
-     LISTENERS
-     **********************************************/
 
     /**
      *  Listener for item click in list of book

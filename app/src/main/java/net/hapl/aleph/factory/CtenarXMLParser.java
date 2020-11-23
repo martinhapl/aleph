@@ -47,20 +47,18 @@ public class CtenarXMLParser extends AbstractXmlParseDefaultHandler {
     private String sequence;
 
     private String tmpValue;
-    private CtenarDTO CtenarTmp;
     private final List<CtenarDTO> ctenarDTOList;
     private final List<RezervaceDTO> rezervaceDTOList;
     private final List<VypujckaDTO> vypujckaDTOList;
-    private String tagItem;
     private String loginCtenar;
     private String hesloCtenar;
 
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
     public CtenarXMLParser(UserConfigDTO userConfigDTO, ServerConfigDTO serverConfigDTO) {
 
-        ctenarDTOList = new ArrayList<CtenarDTO>();
-        rezervaceDTOList = new ArrayList<RezervaceDTO>();
-        vypujckaDTOList = new ArrayList<VypujckaDTO>();
+        ctenarDTOList = new ArrayList<>();
+        rezervaceDTOList = new ArrayList<>();
+        vypujckaDTOList = new ArrayList<>();
 
         if (!(userConfigDTO.getLogin()==null|| userConfigDTO.getPasswd()==null)) {
             try {
@@ -79,15 +77,14 @@ public class CtenarXMLParser extends AbstractXmlParseDefaultHandler {
         myHttpAsyncTaskCtenar.execute(serverConfigDTO.getXServerURL() + "?op=bor-info&bor_id=" + loginCtenar + "&verification=" + hesloCtenar + "&library=" + serverConfigDTO.getBaseADM() + "&user_name=" + serverConfigDTO.getUser() + "&user_password=" + serverConfigDTO.getUserPassword());
         try {
             myHttpAsyncTaskCtenar.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void startElement(String s, String s1, String elementName, Attributes attributes) {
+        String tagItem;
         if (elementName.equalsIgnoreCase("item-h")) {
             tagItem = "item-h";
             this.docNumber = null;
@@ -253,11 +250,11 @@ public class CtenarXMLParser extends AbstractXmlParseDefaultHandler {
         return getDTOs().toString();
     }
 
-    @TargetApi(Build.VERSION_CODES.CUPCAKE)
+
     private class HttpAsyncTaskCtenar extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            return GET(urls[0]);
+            return parseData(urls[0]);
         }
     }
 }

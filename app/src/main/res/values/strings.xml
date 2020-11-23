@@ -5,7 +5,7 @@
     <string name="title_search">Hledat</string>
     <string name="title_activity_detail">Hledat</string>
     <string name="title_activity_availability">Dostupnost</string>
-    <string name="search_hint">autor, titul, téma, atd...</string>
+    <string name="search_hint">autor, titul, téma, atd…</string>
     <string name="detailImage">detailImage</string>
     <string name="menuFavoriteAdd">Oblíbené</string>
     <string name="menuSendByMail">Odeslat</string>
@@ -37,8 +37,8 @@
     <!-- SearchFragment AvailabilityActivity -->
     <string name="makeReservationDialog">Opravdu chcete vytvořit rezervaci?</string>
     <string name="reservationDialogTitle">Rezervace: </string>
-    <string name="progressDialogTitle">Prosím vydržte...</string>
-    <string name="progressDialogContent">Probíhá rezervace...</string>
+    <string name="progressDialogTitle">Prosím vydržte…</string>
+    <string name="progressDialogContent">Probíhá rezervace…</string>
     <string name="alert_dialog_not_login">Nemáte nastavené přihlašovací údaje.</string>
     <string name="alert_dialog_set">Nastavit</string>
     <string name="title_availability">Dostupnost</string>
@@ -90,7 +90,7 @@
     <!-- Content Description -->
     <string name="positiveAnswer">Ano</string>
     <string name="negativeAnswer">Ne</string>
-    <string name="checkAnswer">Ok</string>
+    <string name="checkAnswer">OK</string>
     <string name="cancelAnswer">Zrušit</string>
 
 
@@ -101,8 +101,8 @@
     <string name="reservation_cancel_question">Opravdu chcete rezervaci zrušit?</string>
     <string name="reservation_canceled">Rezervace byla zrušena.</string>
     <string name="reservation_not_canceled">Rezervaci nelze zrušit.</string>
-    <string name="reservation_progress_dialog_title">Prosím vydržte...</string>
-    <string name="reservation_progress_dialog_content">Probíhá rušení rezervace ...</string>
+    <string name="reservation_progress_dialog_title">Prosím vydržte…</string>
+    <string name="reservation_progress_dialog_content">Probíhá rušení rezervace …</string>
 
     <!-- AccountFragment -->
     <string name="title_account">Účet</string>

@@ -2,7 +2,6 @@ package net.hapl.aleph.ui.favorite;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +19,9 @@ import java.util.List;
 public class FavoriteQueryListAdapter extends BaseAdapter {
     private static String TAG = "FavoriteQueryListAdapter";
 
-    private Context context;
-    private List<String> queryItems;
-    private FavoriteQueryFragment.ListTouchListener listTouchListener;
+    private final Context context;
+    private final List<String> queryItems;
+    private final FavoriteQueryFragment.ListTouchListener listTouchListener;
 
     public FavoriteQueryListAdapter(Context context, List<String> queries, FavoriteQueryFragment.ListTouchListener listTouchListener) {
         this.context = context;

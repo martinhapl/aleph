@@ -22,7 +22,7 @@ public class AvailabilityListAdapter extends BaseAdapter {
     private final Context context;
     private final List<ItemDataDTO> availabilityItems;
 
-    public AvailabilityListAdapter(Context context, int layoutResourceId, List<ItemDataDTO> searchItems) {
+    public AvailabilityListAdapter(Context context, List<ItemDataDTO> searchItems) {
         this.context = context;
         this.availabilityItems = searchItems;
     }

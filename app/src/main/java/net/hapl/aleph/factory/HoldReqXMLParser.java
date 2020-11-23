@@ -22,9 +22,7 @@ public class HoldReqXMLParser extends AbstractXmlParseDefaultHandler {
         myHttpAsyncTaskHoldReq.execute(serverConfigDTO.getXServerURL() + "?op=hold-req&bor_id=" + userConfigDTO.getLogin() + "&item_barcode=" + holdItem.getBarcode() + "&library=" + serverConfigDTO.getBaseADM() + "&user_name=" + serverConfigDTO.getUser() + "&user_password=" + serverConfigDTO.getUserPassword());
         try {
             myHttpAsyncTaskHoldReq.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
@@ -63,7 +61,7 @@ public class HoldReqXMLParser extends AbstractXmlParseDefaultHandler {
         @Override
         protected String doInBackground(String... urls) {
 
-            return GET(urls[0]);
+            return parseData(urls[0]);
         }
     }
 }

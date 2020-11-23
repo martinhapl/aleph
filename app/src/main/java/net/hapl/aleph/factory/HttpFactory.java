@@ -14,7 +14,7 @@ public class HttpFactory {
     public static Bitmap downloadBitmap(String urlLink) throws IOException {
         URL url;
         HttpURLConnection urlConnection = null;
-        InputStream inputStream = null;
+        InputStream inputStream;
 
         try {
             url = new URL(urlLink);
@@ -26,8 +26,7 @@ public class HttpFactory {
 
                 byte[] bytes = readBytes(inputStream);
 
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                return bitmap;
+                return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             }  else {
                 throw new IOException("Download failed, HTTP response code "
                         + responseCode);
@@ -43,7 +42,7 @@ public class HttpFactory {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;
         byte[] buffer = new byte[bufferSize];
-        int len = 0;
+        int len;
         while ((len = inputStream.read(buffer)) != -1) {
             byteBuffer.write(buffer, 0, len);
         }

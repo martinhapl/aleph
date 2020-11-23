@@ -18,7 +18,7 @@ public class FavouritesRepository {
     private List<PresentDTO> favouriteDTOs;
 
     public FavouritesRepository() {
-        favouriteDTOs = new ArrayList();
+        favouriteDTOs = new ArrayList<>();
     }
 
     public List<PresentDTO> getFavourite() {
@@ -99,8 +99,6 @@ public class FavouritesRepository {
             try {
                 result.createNewFile();
                 serializer.write(presentDTOsTest, result);
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -19,16 +19,12 @@ import net.hapl.aleph.R;
 public class AccountFragment extends Fragment {
 
     public static AccountFragment newInstance() {
-        AccountFragment fragment = new AccountFragment();
-        return fragment;
+        return new AccountFragment();
     }
-
-    private AcountViewModel accountViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        accountViewModel =
-                ViewModelProviders.of(this).get(AcountViewModel.class);
+        AcountViewModel accountViewModel = ViewModelProviders.of(this).get(AcountViewModel.class);
         View root = inflater.inflate(R.layout.fragment_account, container, false);
         final TextView textView = root.findViewById(R.id.text_dashboard);
         accountViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -40,7 +36,7 @@ public class AccountFragment extends Fragment {
 
         androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
         if(actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.accountBackground)));
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.accountBackground, getActivity().getTheme())));
         }
 
         return root;

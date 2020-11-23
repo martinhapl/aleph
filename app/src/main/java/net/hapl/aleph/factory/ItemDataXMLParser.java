@@ -47,9 +47,7 @@ public class ItemDataXMLParser extends AbstractXmlParseDefaultHandler {
         myHttpAsyncTaskRenew.execute(serverConfigDTO.getXServerURL() + "?op=circ-status&sys_no=" + document.getDoc_number() + "&library=" + serverConfigDTO.getBaseBIB() + "&user_name=" + serverConfigDTO.getUser() + "&user_password=" + serverConfigDTO.getUserPassword());
         try {
             myHttpAsyncTaskRenew.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
@@ -132,7 +130,7 @@ public class ItemDataXMLParser extends AbstractXmlParseDefaultHandler {
     private class HttpAsyncTaskRenew extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            return GET(urls[0]);
+            return parseData(urls[0]);
         }
     }
 }

@@ -18,9 +18,6 @@ public class ReservationFragment extends Fragment {
 
     private static final String TAG = "ReservationFragment";
 
-    private ListView reservationList;
-    private TextView noReservationTextView;
-
     ReservationListAdapter reservationListAdapter;
 
     /**
@@ -30,8 +27,7 @@ public class ReservationFragment extends Fragment {
      * @return A new instance of fragment SearchFragment.
      */
     public static ReservationFragment newInstance() {
-        ReservationFragment fragment = new ReservationFragment();
-        return fragment;
+        return new ReservationFragment();
     }
 
     /**
@@ -56,8 +52,8 @@ public class ReservationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_reservation, container, false);
 
-        reservationList = (ListView) rootView.findViewById(R.id.reservationList);
-        noReservationTextView = (TextView) rootView.findViewById(R.id.noReservationTextView);
+        ListView reservationList = (ListView) rootView.findViewById(R.id.reservationList);
+        TextView noReservationTextView = (TextView) rootView.findViewById(R.id.noReservationTextView);
 
         if(AlephControl.getInstance().getCtenar().getRezervaceDTOs().size() == 0) {
             reservationList.setVisibility(View.GONE);

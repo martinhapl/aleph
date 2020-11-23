@@ -32,9 +32,7 @@ public class CheckCtenarXMLParser extends AbstractXmlParseDefaultHandler {
             myHttpAsyncTaskCtenar.execute(serverConfigDTO.getXServerURL() + "?op=bor-auth&bor_id=" + loginCtenar + "&verification=" + hesloCtenar + "&library=" + serverConfigDTO.getBaseADM() + "&user_name=" + serverConfigDTO.getUser() + "&user_password=" + serverConfigDTO.getUserPassword());
             try {
                 myHttpAsyncTaskCtenar.get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         }
@@ -68,7 +66,7 @@ public class CheckCtenarXMLParser extends AbstractXmlParseDefaultHandler {
         @Override
         protected String doInBackground(String... urls) {
 
-            return GET(urls[0]);
+            return parseData(urls[0]);
         }
     }
 }

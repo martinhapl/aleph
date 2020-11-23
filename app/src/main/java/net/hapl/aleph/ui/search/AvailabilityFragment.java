@@ -71,8 +71,7 @@ public class AvailabilityFragment extends Fragment {
         if(savedInstanceState != null) {
             positionInDto = savedInstanceState.getInt(POSITION_IN_DTO, 0);
             detailState = savedInstanceState.getInt(PARAM_DETAIL_STATE, 0);
-        }
-        else {
+        } else {
             Bundle args = getArguments();
             positionInDto = args.getInt(POSITION_IN_DTO, 0);
             detailState = args.getInt(PARAM_DETAIL_STATE, 0);
@@ -129,7 +128,7 @@ public class AvailabilityFragment extends Fragment {
                             noAvailabilityTextView.setVisibility(View.GONE);
                             availabilityList.setVisibility(View.VISIBLE);
 
-                            AvailabilityListAdapter availabilityListAdapter = new AvailabilityListAdapter(getActivity(), R.layout.item_availability_list, itemDataDTOs);
+                            AvailabilityListAdapter availabilityListAdapter = new AvailabilityListAdapter(getActivity(), itemDataDTOs);
 
                             availabilityList.setAdapter(availabilityListAdapter);
                             availabilityList.setOnItemClickListener(itemClickListener);
@@ -239,7 +238,7 @@ public class AvailabilityFragment extends Fragment {
                         });
                     }
 
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
                 ringProgressDialog.dismiss();
             }

@@ -14,29 +14,24 @@ import net.hapl.aleph.model.FindDTO;
 import net.hapl.aleph.model.PresentDTO;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class FindRepository {
 
+    private static final String TAG = "FindRepository";
     private FindDTO findDTO;
     private String query;
-
     private List<PresentDTO> presentDTOs;
-
-    private int pocet_polozek;
+    private final int pocet_polozek;
     private int max_pocet;
     private int aktual_pozice;
 
-    private static final String TAG = "FindRepository";
-
     public FindRepository() {
         findDTO = new FindDTO();
-        presentDTOs = new ArrayList();
+        presentDTOs = new ArrayList<>();
 
         pocet_polozek = 10;
         aktual_pozice = 1;
@@ -83,7 +78,7 @@ public class FindRepository {
 
     public List<PresentDTO> findNext() {
         //nalezeni dalsich x(pocet_polozek) polozek
-        List<PresentDTO> presentDTOsDavka = new ArrayList<PresentDTO>();
+        List<PresentDTO> presentDTOsDavka = new ArrayList<>();
 
         if (AlephControl.getInstance().isNetworkOnline()) {
             if (aktual_pozice < max_pocet) {
@@ -105,72 +100,6 @@ public class FindRepository {
         return presentDTOsDavka;
     }
 
-    public List<PresentDTO> next() {
-
-        List<PresentDTO> presentDTOsDavka = new ArrayList();
-
-        for(int i = 0; i < pocet_polozek; i++) {
-            presentDTOsDavka.add(presentDTOs.get(aktual_pozice+i));
-            aktual_pozice++;
-        }
-
-        return presentDTOsDavka;
-    }
-
-    public List<PresentDTO> preview() {
-        List<PresentDTO> presentDTOsDavka = new ArrayList();
-
-        for(int i = 0; i < pocet_polozek; i++){
-            presentDTOsDavka.add(presentDTOs.get(aktual_pozice-i));
-            aktual_pozice--;
-        }
-
-        return presentDTOsDavka;
-    }
-
-    public List<PresentDTO> first() {
-        pocet_polozek = 10;
-        aktual_pozice = 1;
-        List<PresentDTO> presentDTOsDavka = new ArrayList();
-
-        for(int i = 0; i < pocet_polozek; i++){
-            presentDTOsDavka.add(presentDTOs.get(aktual_pozice+i));
-            aktual_pozice++;
-        }
-        return presentDTOsDavka;
-    }
-
-    public Bitmap nactiObalku(int indexPresentDTO) {
-        //nacteni obalky
-        Bitmap obalkaTmp = null;
-        obalkaTmp = BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.medium);
-        String isbnTmp;
-        isbnTmp = presentDTOs.get(indexPresentDTO).getObalka();
-        if (presentDTOs.get(indexPresentDTO).getObalka()!=null) {
-            if (existObalkaInCache(isbnTmp)) {
-                HttpAsyncTaskEnvelope myHttpAsyncTaskob = new HttpAsyncTaskEnvelope();
-                myHttpAsyncTaskob.execute("http://www.obalkyknih.cz/api/cover?isbn="+ isbnTmp);
-                try {
-                    obalkaTmp = myHttpAsyncTaskob.get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-
-                if(obalkaTmp.getByteCount()>1) {
-                    saveImageToDiskCache(isbnTmp, obalkaTmp);
-                } else {
-                    obalkaTmp = BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.medium);
-                    presentDTOs.get(indexPresentDTO).setObalka(null);
-                }
-            } else {
-                obalkaTmp = getImageFromDiskCache(isbnTmp);
-            }
-        }
-        return obalkaTmp;
-    }
-
     public boolean existObalkaInCache(String isbn) {
 
         File file = new File(MainActivity.IMAGECACHEDIR, isbn + ".png");
@@ -184,23 +113,22 @@ public class FindRepository {
             if (!f.exists()) {
                 return BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.medium);
             } else {
-                Bitmap tmp = BitmapFactory.decodeFile(fileName);
-                return tmp;
+                return BitmapFactory.decodeFile(fileName);
             }
         } catch (Exception e) {
             return BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.medium);
         }
     }
 
-
     public void saveImageToDiskCache(String obalka, Bitmap ukladanaObalka) {
-
-        if(!MainActivity.IMAGECACHEDIR.exists()) MainActivity.IMAGECACHEDIR.mkdirs();
+        if (!MainActivity.IMAGECACHEDIR.exists()) {
+            MainActivity.IMAGECACHEDIR.mkdirs();
+        }
 
         File file = new File(MainActivity.IMAGECACHEDIR, obalka + ".png");
         if (!file.exists()&&ukladanaObalka.getByteCount() > 1) {
 
-            FileOutputStream fOut = null;
+            FileOutputStream fOut;
             try {
                 fOut = new FileOutputStream(file);
 
@@ -208,25 +136,14 @@ public class FindRepository {
                 fOut.flush();
                 fOut.close();
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-
     public List<PresentDTO> getPresentDTOs() {
         return presentDTOs;
-    }
-
-    public void resetPresentDTOs() {
-        this.presentDTOs.clear();
-    }
-
-    public FindDTO getFindDTO() {
-        return findDTO;
     }
 
     public String getQuery() {

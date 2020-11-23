@@ -19,17 +19,14 @@ import net.hapl.aleph.R;
 
 public class FavoriteFragment extends Fragment {
 
-    private static String TAG = "FavoriteFragment";
-    private int selectedPosition;
-    private FragmentTabHost mTabHost;
+    private static final String TAG = "FavoriteFragment";
 
     public FavoriteFragment() {
         Log.d(TAG, "FavoriteFragment");
     }
 
     public static Fragment newInstance() {
-        FavoriteFragment favoriteFragment = new FavoriteFragment();
-        return favoriteFragment;
+        return new FavoriteFragment();
     }
 
     @Override
@@ -38,7 +35,7 @@ public class FavoriteFragment extends Fragment {
 
         androidx.appcompat.app.ActionBar actionBar = MainActivity.getContext().getSupportActionBar();
         if(actionBar != null) {
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.favoriteBackground)));
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.favoriteBackground, getActivity().getTheme())));
         }
         super.onCreate(savedInstanceState);
     }
@@ -48,7 +45,8 @@ public class FavoriteFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_favorite, container, false);
 
-        if((mTabHost = (FragmentTabHost)root.findViewById(android.R.id.tabhost)) != null) {
+        FragmentTabHost mTabHost;
+        if ((mTabHost = (FragmentTabHost)root.findViewById(android.R.id.tabhost)) != null) {
             mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
 
             mTabHost.addTab(mTabHost.newTabSpec(getString(R.string.action_record))

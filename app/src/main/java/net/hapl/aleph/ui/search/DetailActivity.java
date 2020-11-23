@@ -66,17 +66,6 @@ public class DetailActivity extends AppCompatActivity implements SearchComm, Fav
         FragmentManager fragmentManager = getSupportFragmentManager();
         detailFragment = DetailFragment.newInstance(detailState, selectedPosition);
         fragmentManager.beginTransaction().replace(R.id.detail_container, detailFragment).addToBackStack(null).commit();
-
-        left_container = (FrameLayout) findViewById(R.id.detail_container_left);
-        // pouze velke displeye
-        if(left_container != null) {
-            bigScreen = true;
-            favoriteRecordFragment = FavoriteRecordFragment.newInstance();
-            fragmentManager.beginTransaction().replace(R.id.detail_container_left, favoriteRecordFragment).commit();
-        }
-
-        // hide hamburger
-        //setDrawerIndicator(false);
     }
 
     @Override
@@ -106,17 +95,16 @@ public class DetailActivity extends AppCompatActivity implements SearchComm, Fav
         MenuInflater inflater = getMenuInflater();
         ActionBar actionBar = getSupportActionBar();
 
-        if(detailState == MainActivity.DETAIL_SEARCH_STATE) {
+        if (detailState == MainActivity.DETAIL_SEARCH_STATE) {
             inflater.inflate(R.menu.menu_detail_search, menu);
 
             actionBar.setTitle(getString(R.string.title_search));
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.searchBackground)));
-        }
-        else {
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.searchBackground, getTheme())));
+        } else {
             inflater.inflate(R.menu.menu_detail_favorite, menu);
 
             actionBar.setTitle(getString(R.string.title_favorite));
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.favoriteBackground)));
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.favoriteBackground, getTheme())));
         }
 
         actionBar.setHomeButtonEnabled(true);

@@ -24,9 +24,10 @@ public class FavoriteRecordListAdapter extends BaseAdapter {
     private final FavoriteRecordFragment.ListTouchListener favoriteListTouchListener;
     private final FavoriteComm favoriteComm;
 
+
     /**
-     * Constructor for searching
      * @param context
+     * @param favoriteListTouchListener
      */
     public FavoriteRecordListAdapter(Context context, FavoriteRecordFragment.ListTouchListener favoriteListTouchListener) {
         this.context = context;
@@ -90,14 +91,14 @@ public class FavoriteRecordListAdapter extends BaseAdapter {
         convertView.setTag(position);
         convertView.setOnTouchListener(favoriteListTouchListener);
 
-        String nazevAndPodnazev = "";
+        String nazevAndPodnazev;
         nazevAndPodnazev = AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getNazev() != null ?
                 AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getNazev() : "";
         nazevAndPodnazev += AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getPodNazev() != null ?
                 AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getPodNazev() : "";
         holder.txtBook.setText(nazevAndPodnazev);
 
-        String yearAndAuthor = "";
+        String yearAndAuthor;
         yearAndAuthor = AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getImprintRok() != null ? AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getImprintRok() +  " - " : "";
         yearAndAuthor += AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getAutor() != null ? AlephControl.getInstance().getFavouritesRepository().getFavourite().get(position).getAutor() : "";
         holder.txtAuthor.setText(yearAndAuthor);

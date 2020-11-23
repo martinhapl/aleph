@@ -1,9 +1,7 @@
 package net.hapl.aleph;
 
 import android.content.Intent;
-import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -38,8 +36,6 @@ public class MainActivity extends AppCompatActivity implements SearchComm, Favor
     //private static final String PARAM_TITLE = "PARAM_TITLE";
     private static final String TAG = "MainActivity";
 
-    private int selectedPosition;
-    private int detailState;
     //private String query = "";
 
 
@@ -158,17 +154,8 @@ public class MainActivity extends AppCompatActivity implements SearchComm, Favor
         startDetailActivity(position, detailState);
     }
 
-    public void setDetailState(int state) {
-        this.detailState = state;
-    }
-
-    public void setSelectedPosition(int pos) {
-        this.selectedPosition = pos;
-    }
 
     public void startDetailActivity(int pos, int state) {
-        setSelectedPosition(pos);
-        setDetailState(state);
 
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(PARAM_SELECTED_POSITION, pos);

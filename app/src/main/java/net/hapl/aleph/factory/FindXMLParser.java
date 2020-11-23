@@ -19,14 +19,12 @@ public class FindXMLParser extends AbstractXmlParseDefaultHandler {
 
     private static final String TAG = "FindXMLParser";
 
-    private final String findQSlovo;
     private String tmpValue;
     private FindDTO FindQTmp;
     private final List<FindDTO> FindQList;
 
     public FindXMLParser(String hledaneSlovo, ServerConfigDTO serverConfigDTO) {
-        this.findQSlovo = hledaneSlovo;
-        FindQList = new ArrayList<FindDTO>();
+        FindQList = new ArrayList<>();
 
         Looper.prepare();
         HttpAsyncTaskFind myHttpAsyncTaskFind = new HttpAsyncTaskFind();
@@ -42,9 +40,7 @@ public class FindXMLParser extends AbstractXmlParseDefaultHandler {
         // myHttpAsyncTask.execute(serverConfigDTO.getXServerURL() + "?op=find&base="+serverConfigDTO.getBaseBIB()+"&request="+hledaneSlovo.replace(" ","="));
         try {
             myHttpAsyncTaskFind.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
@@ -90,7 +86,7 @@ public class FindXMLParser extends AbstractXmlParseDefaultHandler {
         @Override
         protected String doInBackground(String... urls) {
 
-            return GET(urls[0]);
+            return parseData(urls[0]);
         }
     }
 }

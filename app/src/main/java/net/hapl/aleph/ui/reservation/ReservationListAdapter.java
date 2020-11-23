@@ -106,7 +106,7 @@ public class ReservationListAdapter extends BaseAdapter {
 
                     notifyAdp();
 
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
                 ringProgressDialog.dismiss();
             }

@@ -41,8 +41,8 @@ public class PresentDTO {
 
     public PresentDTO() {
         super();
-        predmet = new ArrayList<String>();
-        poznamka = new ArrayList<String>();
+        predmet = new ArrayList<>();
+        poznamka = new ArrayList<>();
     }
 
 
@@ -62,8 +62,8 @@ public class PresentDTO {
         this.predmet = predmety;
         this.imprintRok = imprintRok;
         this.jazyk = jazyk;
-        predmet = new ArrayList<String>();
-        poznamka = new ArrayList<String>();
+        predmet = new ArrayList<>();
+        poznamka = new ArrayList<>();
     }
 
     public String getDoc_number() {

@@ -1,8 +1,11 @@
 package net.hapl.aleph.control;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import androidx.preference.PreferenceManager;
 
 import net.hapl.aleph.MainActivity;
 import net.hapl.aleph.R;
@@ -75,14 +78,24 @@ public class AlephControl {
     }
 
      public UserConfigDTO getConfig() {
-        //nacteni uzivatelskoho nastaveni
-        //TODO: predelat na preference
-        return new UserConfigDTO("", "", "", "");
+         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(MainActivity.getContext());
+         String fullname = sp.getString("fullname", "MOBAPP");
+         String e_mail = sp.getString("e_mail", "MOBAPP");
+
+        return new UserConfigDTO(fullname, e_mail, "", "");
     }
 
     public ServerConfigDTO getServerConfig() {
-      //TODO: predelat na preference
-        serverConfigDTO = new ServerConfigDTO("MOBAPP","MOBAPP","https://aleph.techlib.cz/X","stk","hka50");
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(MainActivity.getContext());
+
+        String username = sp.getString("username", "MOBAPP");
+        String password = sp.getString("password", "MOBAPP");
+        String url = sp.getString("url", "https://aleph.techlib.cz/X");
+        String base_bit = sp.getString("base_bit", "stk");
+        String base_adm = sp.getString("base_adm", "hka50");
+
+        serverConfigDTO = new ServerConfigDTO(username,password,url,base_bit,base_adm);
+        //serverConfigDTO = new ServerConfigDTO("MOBAPP","MOBAPP","https://aleph.techlib.cz/X","stk","hka50");
         return serverConfigDTO;
     }
 
